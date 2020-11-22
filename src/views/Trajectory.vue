@@ -1,8 +1,6 @@
 <template>
   <div class="trajectory">
-    <div style="text-align: left, margin: 20px">
-      <h1>GPS Trajectories of Vehicles</h1>
-    </div>
+    <h1>GPS Trajectories of Vehicles</h1>
     <b-table fixed hover light :items="trajectories" :fields="fields"></b-table>
   </div>
 </template>
