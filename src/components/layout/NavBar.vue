@@ -15,7 +15,5 @@ export default {
 </script>
 
 <style scoped>
-#nav-logo {
-  color: white;
-}
+
 </style>
