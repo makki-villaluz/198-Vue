@@ -8,8 +8,8 @@
         <b-card>
           <b-form @submit.prevent="uploadTrajectory">
             <h3>Upload Vehicle Trajectory GPX File</h3>
-            <b-form-group label="Name" label-cols="2" style="margin">
-              <b-form-input class="w-50 form-control-sm" required v-model="form.name"></b-form-input>
+            <b-form-group label="Name" label-cols="2">
+              <b-form-input class="w-100 form-control-sm" required v-model="form.name"></b-form-input>
             </b-form-group>
             <div style="margin-bottom:18px">    
               <b-form-file class="w-25" v-model="form.gpx_file" required plain></b-form-file>
@@ -23,14 +23,26 @@
       </b-col>
     </b-row>
     <div style="margin-top: 20px">
-      <b-table outlined fixed hover light sticky-header="500px" head-variant="light" :items="trajectories" :fields="fields">
+      <b-table outlined fixed hover light ref="table" sticky-header="500px" head-variant="light" :items="trajectories" :fields="table.fields">
         <template #cell(actions)="row">
           <b-button variant="outline-info" to="/route">Analyze</b-button>
-          <b-button variant="outline-secondary" v-b-modal="'edit-modal'">Edit</b-button>
+          <b-button variant="outline-primary" v-b-modal="'edit-modal'" @click="modalInfo(row.item.id, row.item.name)">Edit</b-button>
           <b-button variant="outline-danger" @click="deleteTrajectory(row.item.id)">Delete</b-button>
         </template>
       </b-table>
     </div>
+    <b-modal hide-footer id="edit-modal" @hidden="resetModal">
+      <template #modal-title>
+        <p>Editing GPX File:</p>
+        {{ modal.title }}
+      </template>
+      <b-form @submit.prevent="editTrajectory">
+        <b-form-group label="New Name" label-cols="3">
+          <b-form-input required class="w-100 form-control-sm" v-model="modal.name"></b-form-input>
+        </b-form-group>
+        <b-button type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 
@@ -43,32 +55,60 @@ export default {
     return {
       form: {
         name: "",
-        gpx_file: null
+        gpx_file: null,
       },
-      fields: ["id", "name", "filename", "actions"],
-      trajectories: []
+      table: {
+        fields: ["id", "name", "filename", "actions"],
+      },
+      modal: {
+        title: "",
+        id: null,
+        name: "",
+      },
+      trajectories: [],
     }
   },
   methods: {
+    modalInfo(id, name){
+      this.modal.id = id;
+      this.modal.title = name;
+    },
+    resetModal(){
+      this.modal.name = "";
+      this.modal.id = null;
+    },
     uploadTrajectory() {
       const formData = new FormData();
 
-      formData.append('name', this.form.name);
-      formData.append('gpx_file', this.form.gpx_file)
+      formData.append("name", this.form.name);
+      formData.append("gpx_file", this.form.gpx_file);
 
       axios.post("http://localhost:5000/vehicle", formData)
         .then(res => this.trajectories = [...this.trajectories, res.data])
         .catch(err => console.log(err));
-
+        
       this.form.name = '';
       this.form.gpx_file = null;
     },
-    editTrajectory(id){
-      console.log("edit trajectory " + id.toString());
+    editTrajectory(){
+      const formData = new FormData();
+
+      formData.append("name", this.modal.name)
+
+      axios.put("http://localhost:5000/vehicle/" + this.modal.id.toString(), formData)
+        .then(res => {
+          const index = this.trajectories.findIndex(trajectory => trajectory.id == res.data.id);
+          this.trajectories[index].name = res.data.name;
+        })
+        .catch(err => console.log(err));
+
+      this.modal.name = "";
+      this.modal.id = null;
+      this.$bvModal.hide("edit-modal");
     },
     deleteTrajectory(id){
       axios.delete("http://localhost:5000/vehicle/" + id.toString())
-        .then(res => this.trajectories = this.trajectories.filter(trajectory => trajectory.id !== res.data.gpx_vehicle_id))
+        .then(res => this.trajectories = this.trajectories.filter(trajectory => trajectory.id !== res.data.id))
         .catch(err => console.log(err));
     }
   },
