@@ -14,7 +14,7 @@
             <div style="margin-bottom:18px">    
               <b-form-file class="w-25" v-model="form.gpx_file" required plain></b-form-file>
             </div>
-            <b-button type="submit" variant="outline-primary">Upload</b-button>
+            <b-button type="submit" variant="outline-primary" style="float: right">Upload</b-button>
           </b-form>
         </b-card>
       </b-col>
@@ -27,10 +27,11 @@
         <template #cell(actions)="row">
           <b-button variant="outline-info" to="/route">Analyze</b-button>
           <b-button variant="outline-primary" v-b-modal="'edit-modal'" @click="modalInfo(row.item.id, row.item.name)">Edit</b-button>
-          <b-button variant="outline-danger" @click="deleteTrajectory(row.item.id)">Delete</b-button>
+          <b-button variant="outline-danger" v-b-modal="'delete-modal'" @click="modalInfo(row.item.id, row.item.name)">Delete</b-button>
         </template>
       </b-table>
     </div>
+
     <b-modal hide-footer id="edit-modal" @hidden="resetModal">
       <template #modal-title>
         <p>Editing GPX File:</p>
@@ -41,6 +42,17 @@
           <b-form-input required class="w-100 form-control-sm" v-model="modal.name"></b-form-input>
         </b-form-group>
         <b-button type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+      </b-form>
+    </b-modal>
+    
+    <b-modal hide-footer id="delete-modal" @hidden="resetModal">
+      <template #modal-title>
+        <p>Deleting GPX File:</p>
+        {{ modal.title}}
+      </template>
+      <p>Are you sure you want to delete this GPX File?</p>
+      <b-form @submit.prevent="deleteTrajectory">
+        <b-button type="submit" variant="outline-danger" style="float: right">Delete</b-button>
       </b-form>
     </b-modal>
   </div>
@@ -106,10 +118,14 @@ export default {
       this.modal.id = null;
       this.$bvModal.hide("edit-modal");
     },
-    deleteTrajectory(id){
-      axios.delete("http://localhost:5000/vehicle/" + id.toString())
+    deleteTrajectory(){
+      axios.delete("http://localhost:5000/vehicle/" + this.modal.id.toString())
         .then(res => this.trajectories = this.trajectories.filter(trajectory => trajectory.id !== res.data.id))
         .catch(err => console.log(err));
+
+      this.modal.name = "";
+      this.modal.id = null;
+      this.$bvModal.hide("delete-modal");
     }
   },
   created() {
