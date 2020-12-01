@@ -2,22 +2,9 @@
   <div class="trajectory container-xl" style="padding-top: 30px">
     <b-row>
       <b-col>
-        <b-card>
-          <template #header>
-            <h3>Upload Vehicle Trajectory GPX File</h3>
-          </template>
-          <b-form @submit.prevent="uploadTrajectory">
-            <div style="margin: 30px 0 30px">
-              <b-form-group label="Input Name of File:">
-                <b-form-input class="w-100 form-control-sm" required v-model="form.name"></b-form-input>
-              </b-form-group>
-            </div>
-            <b-form-file class="w-25" v-model="form.gpx_file" required plain></b-form-file>
-            <div style="margin-top: 40px">
-              <b-button type="submit" variant="outline-primary" style="float: right">Upload</b-button>
-            </div>
-          </b-form>
-        </b-card>
+        <UploadCard
+          v-on:upload-trajectory="uploadTrajectory"
+        />
       </b-col>
       <b-col cols="8">
         <LMap>
@@ -44,6 +31,7 @@
 import axios from "axios";
 import { LMap, LTileLayer } from "vue2-leaflet";
 import FileTable from "@/components/trajectory/FileTable";
+import UploadCard from "@/components/trajectory/UploadCard";
 
 export default {
   name: "Trajectory",
@@ -51,13 +39,10 @@ export default {
     LMap,
     LTileLayer,
     FileTable,
+    UploadCard,
   },
   data() {
     return {
-      form: {
-        name: "",
-        gpx_file: null,
-      },
       table: {
         fields: ["id", "name", "filename", "actions"],
         selected: []
@@ -69,18 +54,15 @@ export default {
     rowSelected(selected) {
       this.table.selected = selected;
     },
-    uploadTrajectory() {
+    uploadTrajectory(name, gpx_file) {
       const formData = new FormData();
 
-      formData.append("name", this.form.name);
-      formData.append("gpx_file", this.form.gpx_file);
+      formData.append("name", name);
+      formData.append("gpx_file", gpx_file);
 
       axios.post("http://localhost:5000/vehicle", formData)
         .then(res => this.trajectories = [...this.trajectories, res.data])
         .catch(err => console.log(err));
-        
-      this.form.name = '';
-      this.form.gpx_file = null;
     },
     editTrajectory(id, name) {
       const formData = new FormData();
