@@ -1,8 +1,5 @@
 <template>
-  <div class="trajectory container-xl">
-    <div style="padding-top: 10px">
-      <h1 style="text-align: center">GPX Trajectories of Vehicles</h1>
-    </div>
+  <div class="trajectory container-xl" style="padding-top: 30px">
     <b-row>
       <b-col>
         <b-card>
