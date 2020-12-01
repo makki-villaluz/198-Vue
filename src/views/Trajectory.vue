@@ -29,7 +29,7 @@
       </b-col>
     </b-row>
     <div style="margin-top: 30px">
-      <FileTableTrajectory 
+      <FileTable
         :fields="table.fields" 
         :trajectories="trajectories"
         v-on:row-selected="rowSelected"
@@ -43,14 +43,14 @@
 <script>
 import axios from "axios";
 import { LMap, LTileLayer } from "vue2-leaflet";
-import FileTableTrajectory from "@/components/trajectory/FileTableTrajectory";
+import FileTable from "@/components/trajectory/FileTable";
 
 export default {
   name: "Trajectory",
   components: {
     LMap,
     LTileLayer,
-    FileTableTrajectory,
+    FileTable,
   },
   data() {
     return {
