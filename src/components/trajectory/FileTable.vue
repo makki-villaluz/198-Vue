@@ -7,7 +7,7 @@
 			@row-selected="rowSelected" 
 			select-mode="single"
 			:items="trajectories" 
-			:fields="fields"
+			:fields="table.fields"
 		>
 			<template #cell(actions)="row">
 				<b-button variant="outline-info" to="/route">Analyze</b-button>
@@ -47,11 +47,12 @@
 <script>
 export default {
 		name: "FileTable",
-		props: ["fields", "trajectories"],
+		props: ["trajectories"],
 		data() {
 			return {
 				table: {
 					selected: [],
+					fields: ["id", "name", "filename", "actions"],
 				},
 				modal: {
 					title: "",

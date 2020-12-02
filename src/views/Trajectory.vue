@@ -15,7 +15,6 @@
     </b-row>
     <div style="margin-top: 30px">
       <FileTable
-        :fields="table.fields" 
         :trajectories="trajectories"
         v-on:row-selected="rowSelected"
         v-on:edit-trajectory="editTrajectory"
@@ -43,9 +42,6 @@ export default {
   },
   data() {
     return {
-      table: {
-        fields: ["id", "name", "filename", "actions"],
-      },
       map: {
         zoom: 0,
         center: [0, 0],
