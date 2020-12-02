@@ -7,10 +7,10 @@
 			<b-form @submit.prevent="uploadTrajectory">
 				<div style="margin: 30px 0 30px">
 					<b-form-group label="Input Name of File:">
-						<b-form-input class="w-100 form-control-sm" required v-model="form.name"></b-form-input>
+						<b-form-input class="w-100 form-control-sm" required v-model="name"></b-form-input>
 					</b-form-group>
 				</div>
-				<b-form-file class="w-25" v-model="form.gpx_file" required plain></b-form-file>
+				<b-form-file class="w-25" v-model="gpx_file" required plain></b-form-file>
 				<div style="margin-top: 40px">
 					<b-button type="submit" variant="outline-primary" style="float: right">Upload</b-button>
 				</div>
@@ -24,17 +24,15 @@ export default {
 	name: "UploadCardTrajectory",
 	data() {
 		return {
-			form: {
-				name: "",
-				gpx_file: null,
-			},
+			name: "",
+			gpx_file: null,
 		}
 	},
 	methods: {
 		uploadTrajectory() {
-			this.$emit("upload-trajectory", this.form.name, this.form.gpx_file);
-			this.form.name = "";
-			this.form.gpx_file = null;
+			this.$emit("upload-trajectory", this.name, this.gpx_file);
+			this.name = "";
+			this.gpx_file = null;
 		}
 	},
 }
