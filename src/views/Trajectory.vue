@@ -27,7 +27,7 @@
 <script>
 import axios from "axios";
 import L from "leaflet";
-import { LMap, LTileLayer, LGeoJson} from "vue2-leaflet";
+import { LMap, LTileLayer, LGeoJson } from "vue2-leaflet";
 import FileTableTrajectory from "@/components/trajectory/FileTableTrajectory";
 import UploadCardTrajectory from "@/components/trajectory/UploadCardTrajectory";
 
