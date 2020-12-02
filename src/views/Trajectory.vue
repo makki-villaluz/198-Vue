@@ -2,7 +2,7 @@
   <div class="trajectory container-xl" style="padding-top: 30px">
     <b-row>
       <b-col>
-        <UploadCard
+        <UploadCardTrajectory
           v-on:upload-trajectory="uploadTrajectory"
         />
       </b-col>
@@ -14,7 +14,7 @@
       </b-col>
     </b-row>
     <div style="margin-top: 30px">
-      <FileTable
+      <FileTableTrajectory
         :trajectories="trajectories"
         v-on:row-selected="rowSelected"
         v-on:edit-trajectory="editTrajectory"
@@ -28,8 +28,8 @@
 import axios from "axios";
 import L from "leaflet";
 import { LMap, LTileLayer, LGeoJson} from "vue2-leaflet";
-import FileTable from "@/components/trajectory/FileTable";
-import UploadCard from "@/components/trajectory/UploadCard";
+import FileTableTrajectory from "@/components/trajectory/FileTableTrajectory";
+import UploadCardTrajectory from "@/components/trajectory/UploadCardTrajectory";
 
 export default {
   name: "Trajectory",
@@ -37,8 +37,8 @@ export default {
     LMap,
     LTileLayer,
     LGeoJson,
-    FileTable,
-    UploadCard,
+    FileTableTrajectory,
+    UploadCardTrajectory,
   },
   data() {
     return {

@@ -46,7 +46,7 @@
 
 <script>
 export default {
-		name: "FileTable",
+		name: "FileTableTrajectory",
 		props: ["trajectories"],
 		data() {
 			return {
