@@ -36,7 +36,7 @@
 				<p>Deleting GPX File:</p>
 				{{ modal.title }}
 			</template>
-			<p>Are you sure you want to delete this GPX File?</p>
+			<p style="margin: 20px 0 40px">Are you sure you want to delete this GPX File?</p>
 			<b-form @submit.prevent="deleteTrajectory">
 				<b-button type="submit" variant="outline-danger" style="float: right">Delete</b-button>
 			</b-form>
