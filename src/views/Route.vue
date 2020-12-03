@@ -7,7 +7,7 @@
       <b-col cols="8">
         <LMap :zoom="map.zoom" :center="map.center">
           <LTileLayer :url="map.url" :attribution="map.attribution"></LTileLayer>
-          <LGeoJson :geojson="map.geojson" :options="map.options"></LGeoJson>
+          <LGeoJson :geojson="map.geojson" :options="map.options" v-if="map.geojson !== null"></LGeoJson>
         </LMap>
       </b-col>
     </b-row>
