@@ -52,7 +52,7 @@ export default {
 			return {
 				table: {
 					selected: [],
-					fields: ["id", "name", "filename", "actions"],
+					fields: ["id", "name", "filename", {key: "actions", label: ""}],
 				},
 				modal: {
 					title: "",

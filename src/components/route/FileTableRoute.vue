@@ -54,7 +54,7 @@ export default {
 		return {
 			table: {
 				selected: [],
-				fields: ["id", "name", {key: "cell_size", label: "Cell Size (km)"}, "filename", "actions"],
+				fields: ["id", "name", {key: "cell_size", label: "Cell Size (km)"}, "filename", {key: "actions", label: ""}],
 			},
 			modal: {
 				title: "",
