@@ -10,7 +10,7 @@
 			:fields="table.fields"
 		>
 			<template #cell(actions)="row">
-				<b-button style="margin: 0 5px 0" variant="outline-info" :to="{ name: 'Analyzed', params: { id: row.item.id } }">Analyze</b-button>
+				<b-button style="margin: 0 5px 0" variant="outline-info" :to="{ name: 'Analyzed', params: { id: row.item.id, name: row.item.name, filename: row.item.filename } }">Analyze</b-button>
 				<b-button style="margin: 0 5px 0" variant="outline-primary" v-b-modal="'edit-modal'" @click="modalInfo(row.item.id, row.item.name)">Edit</b-button>
 				<b-button style="margin: 0 5px 0" variant="outline-danger" v-b-modal="'delete-modal'" @click="modalInfo(row.item.id, row.item.name)">Delete</b-button>
 			</template>
