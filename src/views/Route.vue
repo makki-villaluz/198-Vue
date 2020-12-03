@@ -80,20 +80,17 @@ export default {
         this.map.geojson = null;
       }
     },
-    uploadRoute(name, cell_size){
-      console.log(name, cell_size);
+    uploadRoute(name, cell_size, gpx_file) {
+      const formData = new FormData();
+
+      formData.append("name", name);
+      formData.append("cell_size", cell_size);
+      formData.append("gpx_file", gpx_file);
+
+      axios.post("http://localhost:5000/route", formData)
+        .then(res => this.routes = [...this.routes, res.data])
+        .catch(err => console.log(err));
     },
-    // uploadRoute(name, cell_size, gpx_file) {
-    //   const formData = new FormData();
-
-    //   formData.append("name", name);
-    //   formData.append("cell_size", cell_size);
-    //   formData.append("gpx_file", gpx_file);
-
-    //   axios.post("http://localhost:5000/vehicle", formData)
-    //     .then(res => this.routes = [...this.routes, res.data])
-    //     .catch(err => console.log(err));
-    // },
     editRoute(id, name, cell_size) {
       const formData = new FormData();
 
