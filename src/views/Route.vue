@@ -2,13 +2,16 @@
   <div class="route container-xl" style="padding-top: 30px">
     <b-row>
       <b-col>
-        <UploadCardRoute v-on:upload-route="uploadRoute"/>
+        <UploadCardRoute 
+          v-on:upload-route="uploadRoute"
+        />
       </b-col>
       <b-col cols="8">
-        <LMap :zoom="map.zoom" :center="map.center">
-          <LTileLayer :url="map.url" :attribution="map.attribution"></LTileLayer>
-          <LGeoJson :geojson="map.geojson" :options="map.options" v-if="map.geojson !== null"></LGeoJson>
-        </LMap>
+        <Map
+          :zoom="map.zoom"
+          :center="map.center"
+          :geojson="map.geojson"
+        />
       </b-col>
     </b-row>
     <div style="margin-top: 30px">
@@ -24,40 +27,22 @@
 
 <script>
 import axios from "axios";
-import L from "leaflet";
-import { LMap, LTileLayer, LGeoJson } from "vue2-leaflet";
 import FileTableRoute from "@/components/route/FileTableRoute";
 import UploadCardRoute from "@/components/route/UploadCardRoute";
+import Map from "@/components/Map";
 
 export default {
   name: "Route",
   components: {
-    LMap,
-    LTileLayer,
-    LGeoJson,
     FileTableRoute,
     UploadCardRoute,
+    Map,
   },
   data() {
     return {
       map: {
         zoom: 0,
         center: [0, 0],
-        url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        options: {
-          style: function () {
-            return {
-              color: "blue"
-            }
-          },
-          pointToLayer: function (feature, latlng) {
-            return new L.CircleMarker(latlng, {
-              radius: 1,
-              fillOpacity: 0.85
-            })
-          }
-        },
         geojson: null,
       },
       routes: [],
