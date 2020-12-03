@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Trajectory from '../views/Trajectory.vue'
 import Route from '../views/Route.vue'
+import Analyzed from '../views/Analyzed.vue'
 
 Vue.use(VueRouter)
 
@@ -10,17 +11,23 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
     path: '/trajectory',
     name: 'Trajectory',
-    component: Trajectory
+    component: Trajectory,
   },
   {
     path: '/route',
     name: 'Route',
-    component: Route
+    component: Route,
+  },
+  {
+    path: '/trajectory/analyzed/:id',
+    name: 'Analyzed',
+    component: Analyzed,
+    props: true,
   }
 ]
 
