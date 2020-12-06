@@ -4,6 +4,6 @@
 
 <script>
 export default {
-    name: "Stop",
+    name: "Stops",
 }
 </script>
