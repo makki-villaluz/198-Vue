@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Trajectories from '../views/Trajectories.vue'
-import Route from '../views/Route.vue'
+import Routes from '../views/Routes.vue'
 import Analyzed from '../views/Analyzed.vue'
 import Stop from '../views/Stop.vue'
 
@@ -20,13 +20,13 @@ const routes = [
     component: Trajectories,
   },
   {
-    path: '/route',
-    name: 'Route',
-    component: Route,
+    path: '/routes',
+    name: 'Routes',
+    component: Routes,
   },
   {
-    path: '/stop',
-    name: 'Stop',
+    path: '/stops',
+    name: 'Stops',
     component: Stop,
   },
   {
