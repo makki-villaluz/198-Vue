@@ -2,7 +2,7 @@
   <div class="route container-xl" style="padding-top: 30px">
     <b-row>
       <b-col>
-        <UploadCardRoute 
+        <UploadCardRoutes 
           v-on:upload-route="uploadRoute"
         />
       </b-col>
@@ -15,7 +15,7 @@
       </b-col>
     </b-row>
     <div style="margin-top: 30px">
-      <FileTableRoute 
+      <FileTableRoutes
         :routes="routes"
         v-on:row-selected="rowSelected"
         v-on:edit-route="editRoute"
@@ -27,15 +27,15 @@
 
 <script>
 import axios from "axios";
-import FileTableRoute from "@/components/route/FileTableRoute";
-import UploadCardRoute from "@/components/route/UploadCardRoute";
+import FileTableRoutes from "@/components/routes/FileTableRoutes";
+import UploadCardRoutes from "@/components/routes/UploadCardRoutes";
 import Map from "@/components/Map";
 
 export default {
-  name: "Route",
+  name: "Routes",
   components: {
-    FileTableRoute,
-    UploadCardRoute,
+    FileTableRoutes,
+    UploadCardRoutes,
     Map,
   },
   data() {
