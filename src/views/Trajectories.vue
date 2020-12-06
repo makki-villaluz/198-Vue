@@ -2,7 +2,7 @@
   <div class="trajectory container-xl" style="padding-top: 30px">
     <b-row>
       <b-col>
-        <UploadCardTrajectory
+        <UploadCardTrajectories
           v-on:upload-trajectory="uploadTrajectory"
         />
       </b-col>
@@ -15,7 +15,7 @@
       </b-col>
     </b-row>
     <div style="margin-top: 30px">
-      <FileTableTrajectory
+      <FileTableTrajectories
         :trajectories="trajectories"
         v-on:row-selected="rowSelected"
         v-on:edit-trajectory="editTrajectory"
@@ -27,15 +27,15 @@
 
 <script>
 import axios from "axios";
-import FileTableTrajectory from "@/components/trajectories/FileTableTrajectories";
-import UploadCardTrajectory from "@/components/trajectories/UploadCardTrajectories";
+import FileTableTrajectories from "@/components/trajectories/FileTableTrajectories";
+import UploadCardTrajectories from "@/components/trajectories/UploadCardTrajectories";
 import Map from "@/components/Map";
 
 export default {
   name: "Trajectories",
   components: {
-    FileTableTrajectory,
-    UploadCardTrajectory,
+    FileTableTrajectories,
+    UploadCardTrajectories,
     Map,
   },
   data() {
