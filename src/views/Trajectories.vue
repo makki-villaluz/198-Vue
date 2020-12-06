@@ -27,12 +27,12 @@
 
 <script>
 import axios from "axios";
-import FileTableTrajectory from "@/components/trajectory/FileTableTrajectory";
-import UploadCardTrajectory from "@/components/trajectory/UploadCardTrajectory";
+import FileTableTrajectory from "@/components/trajectories/FileTableTrajectories";
+import UploadCardTrajectory from "@/components/trajectories/UploadCardTrajectories";
 import Map from "@/components/Map";
 
 export default {
-  name: "Trajectory",
+  name: "Trajectories",
   components: {
     FileTableTrajectory,
     UploadCardTrajectory,
