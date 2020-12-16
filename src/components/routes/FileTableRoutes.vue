@@ -9,6 +9,9 @@
 			:items="routes"
 			:fields="table.fields"
 		>
+			<template #cell(cell_size)="row">
+				{{ row.item.cell_size }}km
+			</template>
 			<template #cell(actions)="row">
 				<b-button style="margin: 0 5px 0" variant="outline-primary" v-b-modal="'edit-modal'" @click="modalInfo(row.item.id, row.item.name)">Edit</b-button>
 				<b-button style="margin: 0 5px 0" variant="outline-danger" v-b-modal="'delete-modal'" @click="modalInfo(row.item.id, row.item.name)">Delete</b-button>
@@ -54,7 +57,7 @@ export default {
 		return {
 			table: {
 				selected: [],
-				fields: ["id", "name", {key: "cell_size", label: "Cell Size (km)"}, "filename", {key: "actions", label: ""}],
+				fields: ["id", "name", "cell_size", "filename", {key: "actions", label: ""}],
 			},
 			modal: {
 				title: "",
