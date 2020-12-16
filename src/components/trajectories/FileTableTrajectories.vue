@@ -46,44 +46,44 @@
 
 <script>
 export default {
-		name: "FileTableTrajectories",
-		props: ["trajectories"],
-		data() {
-			return {
-				table: {
-					selected: [],
-					fields: ["id", "name", "filename", {key: "actions", label: ""}],
-				},
-				modal: {
-					title: "",
-					id: null,
-					name: "",
-				}
-			}
-		},
-		methods: {
-			modalInfo(id, name) {
-				this.modal.id = id;
-				this.modal.title = name;
+	name: "FileTableTrajectories",
+	props: ["trajectories"],
+	data() {
+		return {
+			table: {
+				selected: [],
+				fields: ["id", "name", "filename", {key: "actions", label: ""}],
 			},
-			resetModal() {
-				this.modal.name = "";
-				this.modal.id = null;
-				this.modal.title = "";
-			},
-			rowSelected(selected) {
-				this.$emit("row-selected", selected);
-			},
-			editTrajectory() {
-				this.$emit("edit-trajectory", this.modal.id, this.modal.name)
-				this.resetModal();
-				this.$bvModal.hide("edit-modal");
-			},
-			deleteTrajectory() {
-				this.$emit("delete-trajectory", this.modal.id);
-				this.resetModal();
-				this.$bvModal.hide("delete-modal");
+			modal: {
+				title: "",
+				id: null,
+				name: "",
 			}
 		}
+	},
+	methods: {
+		modalInfo(id, name) {
+			this.modal.id = id;
+			this.modal.title = name;
+		},
+		resetModal() {
+			this.modal.name = "";
+			this.modal.id = null;
+			this.modal.title = "";
+		},
+		rowSelected(selected) {
+			this.$emit("row-selected", selected);
+		},
+		editTrajectory() {
+			this.$emit("edit-trajectory", this.modal.id, this.modal.name)
+			this.resetModal();
+			this.$bvModal.hide("edit-modal");
+		},
+		deleteTrajectory() {
+			this.$emit("delete-trajectory", this.modal.id);
+			this.resetModal();
+			this.$bvModal.hide("delete-modal");
+		}
+	}
 }
 </script>
