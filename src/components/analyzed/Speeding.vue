@@ -41,6 +41,9 @@
 						<template #cell(number)="row">
 							{{ row.index + 1 }}
 						</template>
+						<template #cell(duration)="row">
+							{{ row.item.duration }}s
+						</template>
 					</b-table>
 				</div>
 				<div v-else>
