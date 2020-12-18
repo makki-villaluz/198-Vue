@@ -5,7 +5,8 @@
 				<h3>Upload Route Trajectory GPX File</h3>
 			</template>
 			<b-form @submit.prevent="uploadRoute">
-				<div style="margin: 30px 0 30px">
+				<!-- <div style="margin: 30px 0 30px"> -->
+				<div>
 					<b-form-group label="Input Name of File:">
 						<b-form-input class="w-100 form-control-sm" required v-model="name"></b-form-input>
 					</b-form-group>
@@ -14,7 +15,7 @@
 					</b-form-group>
 				</div>
 				<b-form-file class="w-25" v-model="gpx_file" required plain></b-form-file>
-				<div style="margin-top: 40px">
+				<div style="margin-top: 6px">
 					<b-button type="submit" variant="outline-primary" style="float: right">Upload</b-button>
 				</div>
 			</b-form>
