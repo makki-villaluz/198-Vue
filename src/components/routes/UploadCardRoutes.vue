@@ -5,17 +5,16 @@
 				<h3>Upload Route Trajectory GPX File</h3>
 			</template>
 			<b-form @submit.prevent="uploadRoute">
-				<!-- <div style="margin: 30px 0 30px"> -->
-				<div>
+				<div style="margin-top: 15px">
 					<b-form-group label="Input Name of File:">
 						<b-form-input class="w-100 form-control-sm" required v-model="name"></b-form-input>
 					</b-form-group>
-					<b-form-group label="Input Cell Size">
-						<b-form-input class="w-100 form-control-sm" required v-model="cell_size"></b-form-input>
+					<b-form-group label="Cell Size (km):" label-cols="5">
+						<b-form-input class="form-control-sm" required v-model="cell_size"></b-form-input>
 					</b-form-group>
 				</div>
 				<b-form-file class="w-25" v-model="gpx_file" required plain></b-form-file>
-				<div style="margin-top: 6px">
+				<div style="margin-top: 15px">
 					<b-button type="submit" variant="outline-primary" style="float: right">Upload</b-button>
 				</div>
 			</b-form>
