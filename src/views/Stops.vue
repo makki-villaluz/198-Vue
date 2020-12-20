@@ -2,7 +2,7 @@
 	<div class="container-xl" style="padding-top: 30px">
 		<b-row>
 			<b-col>
-				<UploadStops
+				<UploadCardStops
 					v-on:upload-stop="uploadStop"
 				/>
 			</b-col>
@@ -27,14 +27,14 @@
 
 <script>
 import axios from "axios"
-import UploadStops from "@/components/stops/UploadStops";
+import UploadCardStops from "@/components/stops/UploadCardStops";
 import FileTableStops from "@/components/stops/FileTableStops";
 import Map from "@/components/Map";
 
 export default {
 	name: "Stops",
 	components: {
-		UploadStops,
+		UploadCardStops,
 		FileTableStops,
 		Map
 	},
