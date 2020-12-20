@@ -2,7 +2,7 @@
 	<div>
 		<b-table outlined fixed hover selectable light
 			ref="table"
-			sticky-header="322px"
+			sticky-header="400px"
 			head-variant="light"
 			@row-selected="rowSelected"
 			select-mode="single"
