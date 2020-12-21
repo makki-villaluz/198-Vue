@@ -3,6 +3,7 @@
     <b-row>
       <b-col>
         <UploadCardTrajectories
+        :trajectories="trajectories"
           v-on:upload-trajectory="uploadTrajectory"
         />
       </b-col>
