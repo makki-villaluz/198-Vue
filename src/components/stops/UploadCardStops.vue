@@ -177,7 +177,7 @@ export default {
 
 				return false;
 			}
-			else if (Number(this.inputStop.lat1) >= Number(this.inputStop.lat2) || Number(this.inputStop.long1) <= Number(this.inputStop.long2)) {
+			else if (Number(this.inputStop.lat1) <= Number(this.inputStop.lat2) || Number(this.inputStop.long1) >= Number(this.inputStop.long2)) {
 				this.alert.variant = "danger";
 				this.alert.message = "Invalid Top Left, Bottom Right Points"
 			
