@@ -11,7 +11,7 @@
 							required 
 							class="w-100 form-control-sm" 
 							v-model="name"
-							:state="state"
+							:state="inputState.name"
 							aria-describedby="invalid"
 							@update="validateName"
 						></b-form-input>
@@ -20,10 +20,10 @@
 						</b-form-invalid-feedback>
 					</b-form-group>
 				</div>
-				<div v-if="state==false" style="margin-top: 0px"></div>
+				<div v-if="inputState.name==false" style="margin-top: 0px"></div>
 				<div v-else style="margin-top: 39px"></div>
 				<b-form-file class="w-25" v-model="gpx_file" required plain></b-form-file>
-				<div v-if="state==false" style="margin-top: 31px">
+				<div v-if="inputState.name==false" style="margin-top: 31px">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Upload</b-button>
 				</div>
 				<div v-else style="margin-top: 31px">
@@ -42,7 +42,9 @@ export default {
 		return {
 			name: "",
 			gpx_file: null,
-			state: null,
+			inputState: {
+				name: null,
+			},
 		}
 	},
 	methods: {
@@ -50,13 +52,13 @@ export default {
 			const taken = this.trajectories.find(trajectory => trajectory.name === this.name);
 			
 			if (this.name.length === 0) {
-				this.state = null;
+				this.inputState.name = null;
 			}
 			else if (taken === undefined) {
-				this.state = true;
+				this.inputState.name = true;
 			}
 			else {
-				this.state = false;
+				this.inputState.name = false;
 			}
 		},
 		uploadTrajectory() {
