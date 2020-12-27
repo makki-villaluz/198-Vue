@@ -29,7 +29,17 @@
 			<b-form @submit.prevent="editStop">
 				<div style="margin: 20px 0 40px">
 					<b-form-group label="Input New Name of File:">
-						<b-form-input required class="w-100 form-control-sm" v-model="modal.name"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100 form-control-sm" 
+							v-model="modal.name"
+							:state="modal.stateName"
+							aria-describedby="name-validity"
+							@update="validateName"
+						></b-form-input>
+						<b-form-invalid-feedback id="name-validity">
+							Name already taken
+						</b-form-invalid-feedback>
 					</b-form-group>
 					<b-form-group label="Input New Minimum Time of File">
 						<b-form-input required class="w-100 form-control-sm" v-model="modal.min_time"></b-form-input>
@@ -38,7 +48,12 @@
 						<b-form-input required class="w-100 form-control-sm" v-model="modal.max_time"></b-form-input>
 					</b-form-group>
 				</div>
-				<b-button type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+				<div v-if="modal.stateName==false">	
+					<b-button disabled type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+				</div>
+				<div v-else>
+					<b-button type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+				</div>
 			</b-form>
 		</b-modal>
 
@@ -71,6 +86,7 @@ export default {
 				name: "",
 				min_time: null,
 				max_time: null,
+				stateName: null,
 			},
 		}
 	},
@@ -98,6 +114,19 @@ export default {
 			this.$emit("delete-stop", this.modal.id);
 			this.resetModal();
 			this.$bvModal.hide("delete-modal")
+		},
+		validateName() {
+			const taken = this.stops.find(stop => stop.name === this.modal.name);
+
+			if (this.modal.name.length === 0) {
+				this.modal.stateName = null;
+			}
+			else if (taken === undefined) {
+				this.modal.stateName = true;
+			}
+			else {
+				this.modal.stateName = false;
+			}
 		}
 	}
 }
