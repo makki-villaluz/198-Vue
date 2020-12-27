@@ -26,13 +26,38 @@
 			<b-form @submit.prevent="editRoute">
 				<div style="margin: 20px 0 40px">
 					<b-form-group label="Input New Name of File:">
-						<b-form-input required class="w-100 form-control-sm" v-model="modal.name"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100 form-control-sm" 
+							v-model="modal.name"
+							:state="modal.stateName"
+							aria-describedby="name-validity"
+							@update="validateName"
+						></b-form-input>
+						<b-form-invalid-feedback id="name-validity">
+							Name already taken
+						</b-form-invalid-feedback>
 					</b-form-group>
 					<b-form-group label="Input New Cell Size of File:">
-						<b-form-input required class="w-100 form-control-sm" v-model="modal.cell_size"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100 form-control-sm" 
+							v-model="modal.cell_size"
+							:state="modal.stateCellSize"
+							aria-describedby="cell-size-validity"
+							@update="validateCellSize"							
+						></b-form-input>
+						<b-form-invalid-feedback id="cell-size-validity">
+							Not a number greater than 0
+						</b-form-invalid-feedback>
 					</b-form-group>
 				</div>
-				<b-button type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+				<div v-if="modal.stateName==false || modal.stateCellSize==false">
+					<b-button disabled type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+				</div>
+				<div v-else>
+					<b-button type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+				</div>
 			</b-form>
 		</b-modal>
 		
@@ -64,6 +89,8 @@ export default {
 				id: null,
 				name: "",
 				cell_size: null,
+				stateName: null,
+				stateCellSize: null,
 			}
 		}
 	},
@@ -90,6 +117,30 @@ export default {
 			this.$emit("delete-route", this.modal.id);
 			this.resetModal();
 			this.$bvModal.hide("delete-modal");
+		},
+		validateName() {
+			const taken = this.routes.find(route => route.name === this.modal.name);
+
+			if (this.modal.name.length === 0) {
+				this.modal.stateName = null;
+			}
+			else if (taken === undefined){
+				this.modal.stateName = true;
+			}
+			else {
+				this.modal.stateName = false;
+			}
+		},
+		validateCellSize() {
+			if (this.modal.cell_size.length === 0) {
+				this.modal.stateCellSize = null;
+			}
+			else if (Number.isNaN(Number(this.modal.cell_size)) || Number(this.modal.cell_size) <= 0) {
+				this.modal.stateCellSize = false;
+			}
+			else {
+				this.modal.stateCellSize = true;
+			}
 		}
 	},
 }
