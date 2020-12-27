@@ -27,13 +27,21 @@
 							<b-form-input required class="form-control-sm" v-model="max_time"></b-form-input>
 						</b-form-group>
 					</div>
-					<div style="margin-top: 5px">
+					<div v-if="inputState.name==false" style="margin-top: 5px">
 						<b-button
+							disabled
 							type="submit"
 							style="float: right"
 							variant="outline-info"
 						>Add Points</b-button>
 					</div>
+					<div v-else>
+						<b-button
+							type="submit"
+							style="float: right"
+							variant="outline-info"
+						>Add Points</b-button>
+					</div>					
 				</b-form>
 			</div>
 			<div v-else-if="addStopPage === 1">
