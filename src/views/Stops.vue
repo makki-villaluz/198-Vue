@@ -3,6 +3,7 @@
 		<b-row>
 			<b-col>
 				<UploadCardStops
+					:stops="stops"
 					v-on:upload-stop="uploadStop"
 				/>
 			</b-col>
