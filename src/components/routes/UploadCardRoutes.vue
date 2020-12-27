@@ -11,20 +11,30 @@
 							required 
 							class="w-100 form-control-sm"
 							v-model="name"
-							:state="inputState"
-							aria-describedby="invalid"
+							:state="inputState.name"
+							aria-describedby="name-validity"
 							@update="validateName"
 						></b-form-input>
-					<b-form-invalid-feedback style="margin-bottom: 0" id="invalid">
+					<b-form-invalid-feedback style="margin-bottom: 0" id="name-validity">
 							Name already taken
 					</b-form-invalid-feedback>
 					</b-form-group>
 					<b-form-group label="Cell Size (km):" label-cols="5">
-						<b-form-input class="form-control-sm" required v-model="cell_size"></b-form-input>
+						<b-form-input 
+							required 
+							class="form-control-sm" 
+							v-model="cell_size"
+							:state="inputState.cell_size"
+							aria-describedby="cell-size-validity"
+							@update="validateCellSize"
+						></b-form-input>
+						<b-form-invalid-feedback style="margin-bottom: 0" id="cell-size-validity">
+							Not a number greater than 0
+						</b-form-invalid-feedback>
 					</b-form-group>
 				</div>
 				<b-form-file class="w-25" v-model="gpx_file" required plain></b-form-file>
-				<div v-if="inputState==false" style="margin-top: 15px">
+				<div v-if="inputState.name==false || inputState.cell_size==false" style="margin-top: 15px">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Upload</b-button>
 				</div>
 				<div v-else>
@@ -55,13 +65,24 @@ export default {
 			const taken = this.routes.find(route => route.name === this.name);
 
 			if (this.name.length === 0) {
-				this.inputState = null;
+				this.inputState.name = null;
 			}
 			else if (taken === undefined) {
-				this.inputState = true;
+				this.inputState.name = true;
 			}
 			else {
-				this.inputState = false;
+				this.inputState.name = false;
+			}
+		},
+		validateCellSize() {
+			if (this.cell_size.length === 0) {
+				this.inputState.cell_size = null;
+			}
+			else if (Number.isNaN(Number(this.cell_size)) || Number(this.cell_size) <= 0) {
+				this.inputState.cell_size = false;
+			}
+			else {
+				this.inputState.cell_size = true;
 			}
 		},
 		uploadRoute() {
