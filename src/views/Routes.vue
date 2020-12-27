@@ -3,6 +3,7 @@
     <b-row>
       <b-col>
         <UploadCardRoutes 
+          :routes="routes"
           v-on:upload-route="uploadRoute"
         />
       </b-col>
