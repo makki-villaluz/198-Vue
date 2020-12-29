@@ -207,14 +207,22 @@
 					@click="goToAddStopPage"
 				>Add More Points</b-button>
 			</div>
+			<div style="position: absolute; bottom: 0; left: 156px">
+				<PageIndicator :pages="4" :currentPage="addStopPage + 1" iconSize="0.6"/>
+			</div>
 		</b-card>
 	</div>
 </template>
 
 <script>
+import PageIndicator from "@/components/stops/PageIndicator";
+
 export default {
 	name: "UploadStops",
 	props: ["stops"],
+	components: {
+		PageIndicator,
+	},
 	data() {
 		return {
 			name: "",
