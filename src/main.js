@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 
 import './plugins/bootstrap-vue';
+import { BootstrapVue, BIconCircle, BIconCircleFill} from 'bootstrap-vue'
 
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
@@ -15,6 +16,10 @@ Icon.Default.mergeOptions({
 });
 
 Vue.config.productionTip = false
+
+Vue.use(BootstrapVue);
+Vue.component('BIconCircle', BIconCircle)
+Vue.component('BIconCircleFill', BIconCircleFill)
 
 new Vue({
   router,
