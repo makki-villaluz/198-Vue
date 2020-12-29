@@ -7,7 +7,7 @@
 			<div v-if="addStopPage === 0">
 				<b-form @submit.prevent="goToNextPage">
 					<div style="margin-top: 6px">
-						<b-form-group label="Input Name:">
+						<b-form-group label="Input Name">
 							<b-form-input 
 								required 
 								class="w-100 form-control-sm" 
@@ -20,27 +20,47 @@
 								Name already taken
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Minimum Time (seconds):" label-cols="8">
-							<b-form-input required class="form-control-sm" v-model="min_time"></b-form-input>
+						<b-form-group label="Min Time (s)" label-cols="4">
+							<b-form-input 
+								required 
+								class="form-control-sm" 
+								v-model="min_time"
+								:state="inputState.min_time"
+								aria-describedby="min-time-validity"
+								@update="validateTime"
+							></b-form-input>
+							<b-form-invalid-feedback id="min-time-validity">
+								Not a number greater than 0
+							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Maximum Time (seconds):" label-cols="8">
-							<b-form-input required class="form-control-sm" v-model="max_time"></b-form-input>
+						<b-form-group label="Max Time (s)" label-cols="4">
+							<b-form-input 
+								required 
+								class="form-control-sm" 
+								v-model="max_time"
+								:state="inputState.max_time"
+								aria-describedby="max-time-validity"
+								@update="validateTime"
+							></b-form-input>
+							<b-form-invalid-feedback id="max-time-validity">
+								Not a number greater than min time
+							</b-form-invalid-feedback>
 						</b-form-group>
 					</div>
-					<div v-if="inputState.name==false" style="margin-top: 5px">
+					<div v-if="inputState.name==false || inputState.min_time==false || inputState.max_time==false" style="margin-top: 5px">
 						<b-button
 							disabled
 							type="submit"
 							style="float: right"
 							variant="outline-info"
-						>Add Points</b-button>
+						>Add Data</b-button>
 					</div>
 					<div v-else>
 						<b-button
 							type="submit"
 							style="float: right"
 							variant="outline-info"
-						>Add Points</b-button>
+						>Add Data</b-button>
 					</div>					
 				</b-form>
 			</div>
@@ -48,36 +68,96 @@
 					<b-form @submit.prevent="goToNextPage">
 						<div style="margin: 30px 0 30px">
 							<p>Input Top Left Point</p>
-							<b-form-group label="Latitude Point 1:" label-cols="6">
-								<b-form-input required class="form-control-sm" v-model="inputStop.lat1"></b-form-input>
+							<b-form-group label="Latitude" label-cols="4">
+								<b-form-input 
+									required 
+									class="form-control-sm" 
+									v-model="inputStop.lat1"
+									:state="inputState.lat1"
+									aria-describedby="lat1-validity"
+									@update="validateStopLat1"
+								></b-form-input>
+								<b-form-invalid-feedback id="lat1-validity">
+									Not a number
+								</b-form-invalid-feedback>
 							</b-form-group>
-							<b-form-group label="Longitude Point 1:" label-cols="6">
-								<b-form-input required class="form-control-sm" v-model="inputStop.long1"></b-form-input>
+							<b-form-group label="Longitude" label-cols="4">
+								<b-form-input 
+									required 
+									class="form-control-sm" 
+									v-model="inputStop.long1"
+									:state="inputState.long1"
+									aria-describedby="long1-validity"
+									@update="validateStopLong1"
+								></b-form-input>
+								<b-form-invalid-feedback id="long1-validity">
+									Not a number
+								</b-form-invalid-feedback>
 							</b-form-group>
 						</div>
-						<b-button
-							type="submit"
-							variant="outline-info"
-							style="float: right"
-						>Add Point</b-button>
+						<div v-if="inputState.lat1==false || inputState.long1==false">
+							<b-button
+								disabled
+								type="submit"
+								variant="outline-info"
+								style="float: right"
+							>Add Point</b-button>
+						</div>
+						<div v-else>
+							<b-button
+								type="submit"
+								variant="outline-info"
+								style="float: right"
+							>Add Point</b-button>
+						</div>
 					</b-form>
 			</div>
 			<div v-else-if="addStopPage === 2">
 				<b-form @submit.prevent="addPoints">
 					<div style="margin: 30px 0 30px">
 						<p>Input Bottom Right Point</p>
-						<b-form-group label="Latitude Point 2:" label-cols="6">
-							<b-form-input required class="form-control-sm" v-model="inputStop.lat2"></b-form-input>
+						<b-form-group label="Latitude" label-cols="4">
+							<b-form-input 
+								required 
+								class="form-control-sm" 
+								v-model="inputStop.lat2"
+								:state="inputState.lat2"
+								aria-describedby="lat2-validity"
+								@update="validateStopLat2"
+							></b-form-input>
+							<b-form-invalid-feedback id="lat2-validity">
+								Not a number
+							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Longitude Point 2:" label-cols="6">
-							<b-form-input required class="form-control-sm" v-model="inputStop.long2"></b-form-input>
+						<b-form-group label="Longitude" label-cols="4">
+							<b-form-input 
+								required 
+								class="form-control-sm" 
+								v-model="inputStop.long2"
+								:state="inputState.long2"
+								aria-describedby="long2-validity"
+								@update="validateStopLong2"
+							></b-form-input>
+							<b-form-invalid-feedback id="long2-validty">
+								Not a number
+							</b-form-invalid-feedback>
 						</b-form-group>
 					</div>
-					<b-button
-						type="submit"
-						variant="outline-info"
-						style="float: right"
-					>Add Point</b-button>
+					<div v-if="inputState.lat2==false || inputState.long2==false">
+						<b-button
+							disabled
+							type="submit"
+							variant="outline-info"
+							style="float: right"
+						>Add Point</b-button>
+					</div>
+					<div v-else>
+						<b-button
+							type="submit"
+							variant="outline-info"
+							style="float: right"
+						>Add Point</b-button>
+					</div>
 				</b-form>
 			</div>
 			<div v-else-if="addStopPage === 3">
@@ -186,12 +266,19 @@ export default {
 			this.min_time = null;
 			this.max_time = null;
 			this.stop = [];
+			this.inputState.name = null;
+			this.inputState.min_time = null;
+			this.inputState.max_time = null;
 		},
 		clearAddStopPages() {
 			this.inputStop.lat1 = null;
 			this.inputStop.long1 = null;
 			this.inputStop.lat2 = null;
 			this.inputStop.long2 = null;
+			this.inputState.lat1 = null;
+			this.inputState.long1 = null;
+			this.inputState.lat2 = null;
+			this.inputState.long2 = null;
 		},
 		clearAlert() {
 			this.alert.variant = "";
@@ -211,14 +298,73 @@ export default {
 				this.inputState.name = false;
 			}
 		},
-		validateStopPoints() {
-			if (Number.isNaN(Number(this.inputStop.lat1)) || Number.isNaN(Number(this.inputStop.long1)) || Number.isNaN(Number(this.inputStop.lat2)) || Number.isNaN(Number(this.inputStop.long2))) {
-				this.alert.variant = "danger";
-				this.alert.message = "Invalid Numbers"
-
-				return false;
+		validateTime() {
+			if (this.min_time.length === 0) {
+				this.inputState.min_time = null;
 			}
-			else if (Number(this.inputStop.lat1) <= Number(this.inputStop.lat2) || Number(this.inputStop.long1) >= Number(this.inputStop.long2)) {
+			else if (Number.isNaN(Number(this.min_time)) || Number(this.min_time) <= 0) {
+				this.inputState.min_time = false;
+			}
+			else {
+				this.inputState.min_time = true;
+			}
+
+			if (this.max_time.length === 0) {
+				this.inputState.max_time = null;
+			}
+			else if (Number.isNaN(Number(this.max_time)) || Number(this.max_time) <= Number(this.min_time)) {
+				this.inputState.max_time = false;
+			}
+			else {
+				this.inputState.max_time = true;
+			}
+		},
+		validateStopLat1() {
+			if (this.inputStop.lat1.length === 0) {
+				this.inputState.lat1 = null;
+			}
+			else if (Number.isNaN(Number(this.inputStop.lat1))) {
+				this.inputState.lat1 = false;
+			}
+			else {
+				this.inputState.lat1 = true;
+			}
+		},
+		validateStopLong1() {
+			if (this.inputStop.long1.length === 0) {
+				this.inputState.long1 = null;
+			}
+			else if (Number.isNaN(Number(this.inputStop.long1))) {
+				this.inputState.long1 = false;
+			}
+			else {
+				this.inputState.long1 = true;
+			}
+		},
+		validateStopLat2() {
+			if (this.inputStop.lat2.length === 0) {
+				this.inputState.lat2 = null;
+			}
+			else if (Number.isNaN(Number(this.inputStop.lat2))) {
+				this.inputState.lat2 = false;
+			}
+			else {
+				this.inputState.lat2 = true;
+			}
+		},
+		validateStopLong2() {
+			if (this.inputStop.long2.length === 0) {
+				this.inputState.long2 = null;
+			}
+			else if (Number.isNaN(Number(this.inputStop.long2))) {
+				this.inputState.long2 = false;
+			}
+			else {
+				this.inputState.long2 = true;
+			}
+		},
+		validateStopPoints() {
+			if (Number(this.inputStop.lat1) <= Number(this.inputStop.lat2) || Number(this.inputStop.long1) >= Number(this.inputStop.long2)) {
 				this.alert.variant = "danger";
 				this.alert.message = "Invalid Top Left, Bottom Right Points"
 			
