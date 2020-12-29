@@ -25,7 +25,7 @@
 			</template>
 			<b-form @submit.prevent="editRoute">
 				<div style="margin: 20px 0 40px">
-					<b-form-group label="Input New Name of File:">
+					<b-form-group label="Input New Name of File">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
@@ -38,7 +38,7 @@
 							Name already taken
 						</b-form-invalid-feedback>
 					</b-form-group>
-					<b-form-group label="Input New Cell Size of File:">
+					<b-form-group label="Input New Cell Size of File">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 

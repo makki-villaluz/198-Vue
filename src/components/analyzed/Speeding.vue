@@ -4,10 +4,10 @@
 			<div v-if="compute === false">
 				<h4 style="text-align: center; margin: 0 0 20px">Speeding Violations</h4>
 				<b-form @submit.prevent="getSpeeding">
-					<b-form-group label="Input Time Limit (minutes):">
+					<b-form-group label="Input Time Limit (minutes)">
 						<b-form-input class="w-100" required v-model="time_limit"></b-form-input>
 					</b-form-group>
-					<b-form-group label="Input Speed Limit (km/h):">
+					<b-form-group label="Input Speed Limit (km/h)">
 						<b-form-input class="w-100" required v-model="speed_limit"></b-form-input>
 					</b-form-group>
 					<b-form-radio-group

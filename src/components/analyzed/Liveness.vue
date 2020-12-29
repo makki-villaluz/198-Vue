@@ -4,7 +4,7 @@
 			<div v-if="compute === false">
 				<h4 style="text-align: center">Liveness Checking</h4>
 				<b-form @submit.prevent="getLiveness">
-					<b-form-group label="Input Time Limit (seconds):" style="margin: 20px 0 0">
+					<b-form-group label="Input Time Limit (seconds)" style="margin: 20px 0 0">
 						<b-form-input class="w-100" required v-model="time_limit"></b-form-input>
 					</b-form-group>
 					<b-button 

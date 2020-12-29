@@ -23,7 +23,7 @@
 			</template>
 			<b-form @submit.prevent="editTrajectory">
 				<div style="margin: 20px 0 40px">
-					<b-form-group label="Input New Name of File:">
+					<b-form-group label="Input New Name of File">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 

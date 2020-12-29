@@ -6,7 +6,7 @@
 			</template>
 			<b-form @submit.prevent="uploadRoute">
 				<div style="margin-top: 15px">
-					<b-form-group label="Input Name of File:">
+					<b-form-group label="Input Name of File">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm"
@@ -19,7 +19,7 @@
 							Name already taken
 					</b-form-invalid-feedback>
 					</b-form-group>
-					<b-form-group label="Cell Size (km):" label-cols="5">
+					<b-form-group label="Cell Size (km)" label-cols="5">
 						<b-form-input 
 							required 
 							class="form-control-sm" 

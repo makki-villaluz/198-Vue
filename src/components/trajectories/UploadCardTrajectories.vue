@@ -6,7 +6,7 @@
 			</template>
 			<b-form @submit.prevent="uploadTrajectory">
 				<div style="margin-top: 30px">
-					<b-form-group label="Input Name of File:">
+					<b-form-group label="Input Name of File">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
