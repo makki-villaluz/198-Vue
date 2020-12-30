@@ -42,13 +42,33 @@
 						</b-form-invalid-feedback>
 					</b-form-group>
 					<b-form-group label="Input New Minimum Time of File">
-						<b-form-input required class="w-100 form-control-sm" v-model="modal.min_time"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100 form-control-sm" 
+							v-model="modal.min_time"
+							:state="modal.stateMinTime"
+							aria-describedby="min-time-validity"
+							@update="validateTime"
+						></b-form-input>
+						<b-form-invalid-feedback id="min-time-validity">
+							Not a number greater than 0
+						</b-form-invalid-feedback>
 					</b-form-group>
 					<b-form-group label="Input New Maximum Time of File">
-						<b-form-input required class="w-100 form-control-sm" v-model="modal.max_time"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100 form-control-sm" 
+							v-model="modal.max_time"
+							:state="modal.stateMaxTime"
+							aria-describedby="max-time-validity"
+							@update="validateTime"
+						></b-form-input>
+						<b-form-invalid-feedback id="max-time-validity">
+							Not a number greater than min time
+						</b-form-invalid-feedback>
 					</b-form-group>
 				</div>
-				<div v-if="modal.stateName==false">	
+				<div v-if="modal.stateName==false || modal.stateMinTime==false || modal.stateMaxTime==false">	
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Edit</b-button>
 				</div>
 				<div v-else>
@@ -84,9 +104,11 @@ export default {
 				title: "",
 				id: null,
 				name: "",
-				min_time: null,
-				max_time: null,
+				max_time: "",
+				min_time: "",
 				stateName: null,
+				stateMinTime: null,
+				stateMaxTime: null,
 			},
 		}
 	},
@@ -99,8 +121,11 @@ export default {
 			this.modal.id = null;
 			this.modal.title = "";
 			this.modal.name = "";
-			this.modal.min_time = null;
-			this.modal.max_time = null;
+			this.modal.min_time = "";
+			this.modal.max_time = "";
+			this.modal.stateName = null;
+			this.modal.stateMinTime = null;
+			this.modal.stateMaxTime = null;
 		},
 		rowSelected(selected) {
 			this.$emit("row-selected", selected);
@@ -127,7 +152,28 @@ export default {
 			else {
 				this.modal.stateName = false;
 			}
-		}
+		},
+		validateTime() {
+			if (this.modal.min_time.length === 0) {
+				this.modal.stateMinTime = null;
+			}
+			else if (Number.isNaN(Number(this.modal.min_time)) || Number(this.modal.min_time) <= 0) {
+				this.modal.stateMinTime = false;
+			}
+			else {
+				this.modal.stateMinTime = true;
+			}
+
+			if (this.modal.max_time.length === 0) {
+				this.modal.stateMaxTime = null;
+			}
+			else if (Number.isNaN(Number(this.modal.max_time)) || Number(this.modal.max_time) <= Number(this.modal.min_time)) {
+				this.modal.stateMaxTime = false;
+			}
+			else {
+				this.modal.stateMaxTime = true;
+			}
+		},
 	}
 }
 </script>
