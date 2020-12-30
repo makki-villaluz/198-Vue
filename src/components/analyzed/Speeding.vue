@@ -5,21 +5,51 @@
 				<h4 style="text-align: center; margin: 0 0 20px">Speeding Violations</h4>
 				<b-form @submit.prevent="getSpeeding">
 					<b-form-group label="Input Time Limit (minutes)">
-						<b-form-input class="w-100" required v-model="time_limit"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100" 
+							v-model="time_limit"
+							:state="stateTimeLimit"
+							aria-describedby="time-limit-validity"
+							@update="validateTimeLimit"
+						></b-form-input>
+						<b-form-invalid-feedback id="time-limit-validity">
+							Not a number greater than 0
+						</b-form-invalid-feedback>
 					</b-form-group>
 					<b-form-group label="Input Speed Limit (km/h)">
-						<b-form-input class="w-100" required v-model="speed_limit"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100" 
+							v-model="speed_limit"
+							:state="stateSpeedLimit"
+							aria-describedby="speed-limit-validity"
+							@update="validateSpeedLimit"
+						></b-form-input>
+						<b-form-invalid-feedback id="speed-limit-validity">
+							Not a number greater than 0
+						</b-form-invalid-feedback>
 					</b-form-group>
 					<b-form-radio-group
-					:options="options"
+						:options="options"
 						v-model="speed_type"
 					>
 					</b-form-radio-group>
-					<b-button 
-						type="submit" 
-						variant="outline-primary" 
-						style="position: absolute; bottom: 20px; right: 20px"
-					>Compute</b-button>
+					<div v-if="stateSpeedLimit==false || stateTimeLimit==false">
+						<b-button 
+							disabled
+							type="submit" 
+							variant="outline-primary" 
+							style="position: absolute; bottom: 20px; right: 20px"
+						>Compute</b-button>
+					</div>
+					<div v-else>
+						<b-button 
+							type="submit" 
+							variant="outline-primary" 
+							style="position: absolute; bottom: 20px; right: 20px"
+						>Compute</b-button>
+					</div>
 				</b-form>
 			</div>
 			<div v-else-if="violations === null">
@@ -74,9 +104,11 @@ export default {
 			options: ["Location", "Explicit"],
 			compute: false,
 			speed_type: "Location",
-			speed_limit: null,
-			time_limit: null,
+			speed_limit: "",
+			time_limit: "",
 			violations: null,
+			stateTimeLimit: null,
+			stateSpeedLimit: null,
 		}
 	},
 	methods: {
@@ -98,7 +130,31 @@ export default {
 			this.speed_limit = null;
 			this.time_limit = null;
 			this.violations = null;
-		}
+			this.stateTimeLimit = null;
+			this.stateSpeedLimit = null;
+		},
+		validateTimeLimit() {
+			if (this.time_limit.length === 0) {
+				this.stateTimeLimit = null;
+			}
+			else if (Number.isNaN(Number(this.time_limit)) || Number(this.time_limit) <= 0) {
+				this.stateTimeLimit = false;
+			}
+			else {
+				this.stateTimeLimit = true;
+			}
+		},
+		validateSpeedLimit() {
+			if (this.speed_limit.length === 0) {
+				this.stateSpeedLimit = null;
+			}
+			else if (Number.isNaN(Number(this.speed_limit)) || Number(this.speed_limit) <= 0) {
+				this.stateSpeedLimit = false;
+			}
+			else {
+				this.stateSpeedLimit = true;
+			}
+		},
 	},
 }
 </script>

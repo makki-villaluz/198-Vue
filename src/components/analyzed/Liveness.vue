@@ -5,13 +5,33 @@
 				<h4 style="text-align: center">Liveness Checking</h4>
 				<b-form @submit.prevent="getLiveness">
 					<b-form-group label="Input Time Limit (seconds)" style="margin: 20px 0 0">
-						<b-form-input class="w-100" required v-model="time_limit"></b-form-input>
+						<b-form-input 
+							required 
+							class="w-100" 
+							v-model="time_limit"
+							:state="stateTimeLimit"
+							aria-describedby="time-limit-validity"
+							@update="validateTimeLimit"
+						></b-form-input>
+						<b-form-invalid-feedback id="time-limit-validity">
+							Not a number greater than 0
+						</b-form-invalid-feedback>
 					</b-form-group>
-					<b-button 
-						type="submit" 
-						variant="outline-primary" 
-						style="position: absolute; bottom: 20px; right: 20px"
-					>Compute</b-button>
+					<div v-if="stateTimeLimit==false">
+						<b-button 
+							disabled
+							type="submit" 
+							variant="outline-primary" 
+							style="position: absolute; bottom: 20px; right: 20px"
+						>Compute</b-button>
+					</div>
+					<div v-else>
+						<b-button 
+							type="submit" 
+							variant="outline-primary" 
+							style="position: absolute; bottom: 20px; right: 20px"
+						>Compute</b-button>
+					</div>
 				</b-form>
 			</div>
 			<div v-else-if="liveness === null">
@@ -56,9 +76,10 @@ export default {
 	data() {
 		return {
 			fields: ["segment", "liveness", {key: "time1", label: "Start"}, {key: "time2", label: "End"}],
-			time_limit: null,
+			time_limit: "",
 			compute: false,
 			liveness: null,
+			stateTimeLimit: null,
 		}
 	},
 	methods: {
@@ -76,6 +97,18 @@ export default {
 			this.time_limit = null;
 			this.compute = false;
 			this.liveness = null;
+			this.stateTimeLimit = null;
+		},
+		validateTimeLimit() {
+			if (this.time_limit.length === 0) {
+				this.stateTimeLimit = null;
+			}
+			else if (Number.isNaN(Number(this.time_limit)) || Number(this.time_limit) <= 0) {
+				this.stateTimeLimit = false;
+			}
+			else {
+				this.stateTimeLimit = true;
+			}
 		}
 	},
 }
