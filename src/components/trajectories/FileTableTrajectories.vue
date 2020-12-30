@@ -86,6 +86,7 @@ export default {
 			this.modal.name = "";
 			this.modal.id = null;
 			this.modal.title = "";
+			this.modal.stateName = null;
 		},
 		rowSelected(selected) {
 			this.$emit("row-selected", selected);

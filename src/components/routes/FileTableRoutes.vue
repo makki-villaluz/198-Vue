@@ -88,7 +88,7 @@ export default {
 				title: "",
 				id: null,
 				name: "",
-				cell_size: null,
+				cell_size: "",
 				stateName: null,
 				stateCellSize: null,
 			}
@@ -101,9 +101,11 @@ export default {
 		},
 		resetModal() {
 			this.modal.id = null;
-			this.modal.cell_size = null;
+			this.modal.cell_size = "";
 			this.modal.name = "";
 			this.modal.title = "";
+			this.modal.stateName = null;
+			this.modal.stateCellSize = null;
 		},
 		rowSelected(selected) {
 			this.$emit("row-selected", selected);
