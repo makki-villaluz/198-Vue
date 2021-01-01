@@ -90,6 +90,8 @@ export default {
 			this.name = "";
 			this.cell_size = null;
 			this.gpx_file = null;
+			this.inputState.name = null;
+			this.inputState.cell_size = null;
 		}
 	}
 }

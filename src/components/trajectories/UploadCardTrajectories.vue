@@ -65,6 +65,7 @@ export default {
 			this.$emit("upload-trajectory", this.name, this.gpx_file);
 			this.name = "";
 			this.gpx_file = null;
+			this.inputState.name = null;
 		},
 	},
 }
