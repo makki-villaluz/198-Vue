@@ -1,6 +1,12 @@
 <template>
-  <div class="route container-xl" style="padding-top: 30px">
-    <b-row>
+  <div class="route container-xl">
+    <b-alert 
+      style="margin: 30px 0 0"
+      :variant="alert.variant"
+      :show="alert.duration"
+      @dismissed="resetAlert"
+    >{{ alert.message }}</b-alert>
+    <b-row style="margin-top: 30px">
       <b-col>
         <UploadCardRoutes 
           :routes="routes"
@@ -46,6 +52,11 @@ export default {
         center: [0, 0],
         geojson: null,
       },
+      alert: {
+        message: "",
+        variant: "",
+        duration: 0,
+      },
       routes: [],
     }
   },
@@ -74,8 +85,17 @@ export default {
       formData.append("gpx_file", gpx_file);
 
       axios.post("http://localhost:5000/route", formData)
-        .then(res => this.routes = [...this.routes, res.data])
-        .catch(err => console.log(err));
+        .then(res => {
+					this.routes = [...this.routes, res.data];
+          this.alert.message = "File successfully uploaded"
+          this.alert.variant = "success"
+          this.alert.duration = 3;
+        })
+        .catch(() => {
+          this.alert.message = "File upload error occurred"
+          this.alert.variant = "danger"
+          this.alert.duration = 3;
+        });
     },
     editRoute(id, name, cell_size) {
       const formData = new FormData();
@@ -88,13 +108,34 @@ export default {
           const index = this.routes.findIndex(route => route.id == res.data.id);
           this.routes[index].name = res.data.name;
           this.routes[index].cell_size = res.data.cell_size;
+          this.alert.message = "File successfully edited";
+          this.alert.variant = "success";
+          this.alert.duration = 3;
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+          this.alert.message = "File edit error occurred";
+          this.alert.variant = "danger";
+          this.alert.duration = 3;
+        });
     },
     deleteRoute(id) {
       axios.delete("http://localhost:5000/route/" + id.toString())
-        .then(res => this.routes = this.routes.filter(route => route.id !== res.data.id))
-        .catch(err => console.log(err));
+        .then(res => {
+					this.routes = this.routes.filter(route => route.id !== res.data.id);
+          this.alert.message = "File successfully deleted";
+          this.alert.variant = "success";
+          this.alert.duration = 3;
+				})
+				.catch(() => {
+          this.alert.message = "File delete error occurred";
+          this.alert.variant = "danger";
+          this.alert.duration = 3;
+        });
+    },
+    resetAlert() {
+      this.alert.message = "";
+      this.alert.variant = "";
+      this.alert.duration = 0;
     },
   },
   created() {

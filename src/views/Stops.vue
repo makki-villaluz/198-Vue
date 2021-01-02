@@ -1,6 +1,12 @@
 <template>
-	<div class="container-xl" style="padding-top: 30px">
-		<b-row>
+	<div class="container-xl">
+    <b-alert 
+      style="margin: 30px 0 0"
+      :variant="alert.variant"
+      :show="alert.duration"
+      @dismissed="resetAlert"
+    >{{ alert.message }}</b-alert>
+		<b-row style="margin-top: 30px">
 			<b-col>
 				<UploadCardStops
 					:stops="stops"
@@ -46,6 +52,11 @@ export default {
 				center: [0, 0],
 				geojson: null,
 			},
+			alert: {
+				message: "",
+				variant: "",
+				duration: 0,
+			},
 			stops: [],
 		}
 	},
@@ -76,8 +87,17 @@ export default {
 			}
 
 			axios.post("http://localhost:5000/stop", data)
-				.then(res => this.stops = [...this.stops, res.data])
-				.catch(err => console.log(err));
+				.then(res => {
+					this.stops = [...this.stops, res.data];
+          this.alert.message = "File successfully uploaded"
+          this.alert.variant = "success"
+          this.alert.duration = 3;
+				})
+				.catch(() => {
+          this.alert.message = "File upload error occurred"
+          this.alert.variant = "danger"
+          this.alert.duration = 3;
+        });
 		},
 		editStop(id, name, min_time, max_time) {
 			const formData = new FormData();
@@ -92,14 +112,35 @@ export default {
 					this.stops[index].name = res.data.name;
 					this.stops[index].min_time = res.data.min_time;
 					this.stops[index].max_time = res.data.max_time;
+          this.alert.message = "File successfully edited";
+          this.alert.variant = "success";
+          this.alert.duration = 3;
 				})
-				.catch(res => console.log(res))
+				.catch(() => {
+          this.alert.message = "File edit error occurred";
+          this.alert.variant = "danger";
+          this.alert.duration = 3;
+        });
 		},
 		deleteStop(id) {
 			axios.delete("http://localhost:5000/stop/" + id.toString())
-				.then(res => this.stops = this.stops.filter(stop => stop.id !== res.data.id))
-				.catch(res => console.log(res))
-		}
+				.then(res => {
+					this.stops = this.stops.filter(stop => stop.id !== res.data.id);
+          this.alert.message = "File successfully deleted";
+          this.alert.variant = "success";
+          this.alert.duration = 3;
+				})
+				.catch(() => {
+          this.alert.message = "File delete error occurred";
+          this.alert.variant = "danger";
+          this.alert.duration = 3;
+        });
+		},
+    resetAlert() {
+      this.alert.message = "";
+      this.alert.variant = "";
+      this.alert.duration = 0;
+    },
 	},
 	created() {
 		axios.get("http://localhost:5000/stop")

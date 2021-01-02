@@ -1,6 +1,12 @@
 <template>
-  <div class="trajectory container-xl" style="padding-top: 30px">
-    <b-row>
+  <div class="trajectory container-xl">
+    <b-alert 
+      style="margin: 30px 0 0"
+      :variant="alert.variant"
+      :show="alert.duration"
+      @dismissed="resetAlert"
+    >{{ alert.message }}</b-alert>
+    <b-row style="margin-top: 30px">
       <b-col>
         <UploadCardTrajectories
           :trajectories="trajectories"
@@ -46,6 +52,11 @@ export default {
         center: [0, 0],
         geojson: null,
       },
+      alert: {
+        message: "",
+        variant: "",
+        duration: 0,
+      },
       trajectories: [],
     }
   },
@@ -73,8 +84,17 @@ export default {
       formData.append("gpx_file", gpx_file);
 
       axios.post("http://localhost:5000/vehicle", formData)
-        .then(res => this.trajectories = [...this.trajectories, res.data])
-        .catch(err => console.log(err));
+        .then(res => {
+          this.trajectories = [...this.trajectories, res.data];
+          this.alert.message = "File successfully uploaded";
+          this.alert.variant = "success";
+          this.alert.duration = 3;
+        })
+        .catch(() => {
+          this.alert.message = "File upload error occurred";
+          this.alert.variant = "danger";
+          this.alert.duration = 3;
+        });
     },
     editTrajectory(id, name) {
       const formData = new FormData();
@@ -85,14 +105,35 @@ export default {
         .then(res => {
           const index = this.trajectories.findIndex(trajectory => trajectory.id == res.data.id);
           this.trajectories[index].name = res.data.name;
+          this.alert.message = "File successfully edited";
+          this.alert.variant = "success";
+          this.alert.duration = 3;
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+          this.alert.message = "File edit error occurred";
+          this.alert.variant = "danger";
+          this.alert.duration = 3;
+        });
     },
     deleteTrajectory(id) {
       axios.delete("http://localhost:5000/vehicle/" + id.toString())
-        .then(res => this.trajectories = this.trajectories.filter(trajectory => trajectory.id !== res.data.id))
-        .catch(err => console.log(err));
-    }
+        .then(res => { 
+          this.trajectories = this.trajectories.filter(trajectory => trajectory.id !== res.data.id);
+          this.alert.message = "File successfully deleted"
+          this.alert.variant = "success"
+          this.alert.duration = 3;
+        })
+        .catch(() => {
+          this.alert.message = "File delete error occurred"
+          this.alert.variant = "danger"
+          this.alert.duration = 3;
+        });
+    },
+    resetAlert() {
+      this.alert.message = "";
+      this.alert.variant = "";
+      this.alert.duration = 0;
+    },
   },
   created() {
     axios.get("http://localhost:5000/vehicle")
