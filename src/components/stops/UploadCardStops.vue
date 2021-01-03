@@ -20,8 +20,8 @@
 								Name already taken
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.name==false" style="margin-bottom: 4px"></div>
-						<div v-else style="margin-bottom: 27px"></div>
+						<div v-if="inputState.name==false" style="margin-top: 4px"></div>
+						<div v-else style="margin-top: 27px"></div>
 						<b-form-group label="Min Time (s)" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
@@ -35,8 +35,8 @@
 								Not a number greater than 0
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.min_time==false" style="margin-bottom: 4px"></div>
-						<div v-else style="margin-bottom: 20px"></div>
+						<div v-if="inputState.min_time==false" style="margin-top: 4px"></div>
+						<div v-else style="margin-top: 20px"></div>
 						<b-form-group label="Max Time (s)" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
@@ -50,10 +50,10 @@
 								Not a number greater than min time
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.max_time==false" style="margin-bottom: 4px"></div>
-						<div v-else style="margin-bottom: 20px"></div>
+						<div v-if="inputState.max_time==false" style="margin-top: 4px"></div>
+						<div v-else style="margin-top: 20px"></div>
 					</div>
-					<div v-if="inputState.name==false || inputState.min_time==false || inputState.max_time==false" style="margin-top: 0px">
+					<div v-if="inputState.name==false || inputState.min_time==false || inputState.max_time==false">
 						<b-button
 							disabled
 							type="submit"
@@ -72,9 +72,9 @@
 			</div>
 			<div v-else-if="addStopPage === 1">
 					<b-form @submit.prevent="goToNextPage">
-						<div style="margin: 30px 0 30px">
+						<div style="margin-top: 15px">
 							<p>Input Top Left Point</p>
-							<b-form-group label="Latitude" label-cols="4">
+							<b-form-group label="Latitude" label-cols="4" style="margin: 37px 0 0">
 								<b-form-input 
 									required 
 									class="form-control-sm" 
@@ -87,7 +87,9 @@
 									Not a number
 								</b-form-invalid-feedback>
 							</b-form-group>
-							<b-form-group label="Longitude" label-cols="4">
+							<div v-if="inputState.lat1==false" style="margin-bottom: 4px"></div>
+							<div v-else style="margin-bottom: 20px"></div>
+							<b-form-group label="Longitude" label-cols="4" style="margin-bottom: 0px">
 								<b-form-input 
 									required 
 									class="form-control-sm" 
@@ -100,6 +102,8 @@
 									Not a number
 								</b-form-invalid-feedback>
 							</b-form-group>
+							<div v-if="inputState.long1==false" style="margin-top: 17px"></div>
+							<div v-else style="margin-top: 33px"></div>
 						</div>
 						<div v-if="inputState.lat1==false || inputState.long1==false">
 							<b-button
@@ -289,10 +293,10 @@ export default {
 			this.inputStop.long1 = "";
 			this.inputStop.lat2 = "";
 			this.inputStop.long2 = "";
-			this.inputState.lat1 = "";
-			this.inputState.long1 = "";
-			this.inputState.lat2 = "";
-			this.inputState.long2 = "";
+			this.inputState.lat1 = null;
+			this.inputState.long1 = null;
+			this.inputState.lat2 = null;
+			this.inputState.long2 = null;
 		},
 		clearAlert() {
 			this.alert.variant = "";
