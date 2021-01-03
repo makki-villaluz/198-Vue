@@ -207,7 +207,7 @@
 					@click="goToAddStopPage"
 				>Add More Points</b-button>
 			</div>
-			<div style="position: absolute; bottom: 0; left: 156px">
+			<div style="float: left; margin: 7px 0 7px">
 				<PageIndicator :pages="4" :currentPage="addStopPage + 1" iconSize="0.6"/>
 			</div>
 		</b-card>
