@@ -227,15 +227,15 @@ export default {
 		return {
 			name: "",
 			filename: "",
-			min_time: null,
-			max_time: null,
+			min_time: "",
+			max_time: "",
 			stop: [],
 			addStopPage: 0,
 			inputStop: {
-				lat1: null,
-				long1: null,
-				lat2: null,
-				long2: null,
+				lat1: "",
+				long1: "",
+				lat2: "",
+				long2: "",
 			},
 			inputState: {
 				name: null,
@@ -271,22 +271,22 @@ export default {
 		clearInfoStopPage() {
 			this.name = "";
 			this.filename = "";
-			this.min_time = null;
-			this.max_time = null;
+			this.min_time = "";
+			this.max_time = "";
 			this.stop = [];
 			this.inputState.name = null;
 			this.inputState.min_time = null;
 			this.inputState.max_time = null;
 		},
 		clearAddStopPages() {
-			this.inputStop.lat1 = null;
-			this.inputStop.long1 = null;
-			this.inputStop.lat2 = null;
-			this.inputStop.long2 = null;
-			this.inputState.lat1 = null;
-			this.inputState.long1 = null;
-			this.inputState.lat2 = null;
-			this.inputState.long2 = null;
+			this.inputStop.lat1 = "";
+			this.inputStop.long1 = "";
+			this.inputStop.lat2 = "";
+			this.inputStop.long2 = "";
+			this.inputState.lat1 = "";
+			this.inputState.long1 = "";
+			this.inputState.lat2 = "";
+			this.inputState.long2 = "";
 		},
 		clearAlert() {
 			this.alert.variant = "";

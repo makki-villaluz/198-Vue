@@ -52,7 +52,7 @@ export default {
 	data() {
 		return {
 			name: "",
-			cell_size: null,
+			cell_size: "",
 			gpx_file: null,
 			inputState: {
 				name: null,
@@ -88,7 +88,7 @@ export default {
 		uploadRoute() {
 			this.$emit("upload-route", this.name, this.cell_size, this.gpx_file);
 			this.name = "";
-			this.cell_size = null;
+			this.cell_size = "";
 			this.gpx_file = null;
 			this.inputState.name = null;
 			this.inputState.cell_size = null;
