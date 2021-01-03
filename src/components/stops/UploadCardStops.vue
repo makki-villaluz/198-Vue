@@ -6,8 +6,8 @@
 			</template>
 			<div v-if="addStopPage === 0">
 				<b-form @submit.prevent="goToNextPage">
-					<div style="margin-top: 6px">
-						<b-form-group label="Input Name">
+					<div style="margin-top: 0px">
+						<b-form-group label="Input Name" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
 								class="w-100 form-control-sm" 
@@ -20,7 +20,9 @@
 								Name already taken
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Min Time (s)" label-cols="4">
+						<div v-if="inputState.name==false" style="margin-bottom: 4px"></div>
+						<div v-else style="margin-bottom: 27px"></div>
+						<b-form-group label="Min Time (s)" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
 								class="form-control-sm" 
@@ -33,7 +35,9 @@
 								Not a number greater than 0
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Max Time (s)" label-cols="4">
+						<div v-if="inputState.min_time==false" style="margin-bottom: 4px"></div>
+						<div v-else style="margin-bottom: 20px"></div>
+						<b-form-group label="Max Time (s)" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
 								class="form-control-sm" 
@@ -46,8 +50,10 @@
 								Not a number greater than min time
 							</b-form-invalid-feedback>
 						</b-form-group>
+						<div v-if="inputState.max_time==false" style="margin-bottom: 4px"></div>
+						<div v-else style="margin-bottom: 20px"></div>
 					</div>
-					<div v-if="inputState.name==false || inputState.min_time==false || inputState.max_time==false" style="margin-top: 5px">
+					<div v-if="inputState.name==false || inputState.min_time==false || inputState.max_time==false" style="margin-top: 0px">
 						<b-button
 							disabled
 							type="submit"
