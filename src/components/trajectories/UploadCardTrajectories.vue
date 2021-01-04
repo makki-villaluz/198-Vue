@@ -5,7 +5,7 @@
 				<h3>Upload Vehicle Trajectory GPX File</h3>
 			</template>
 			<b-form @submit.prevent="uploadTrajectory">
-				<div style="margin-top: 30px">
+				<div style="margin-top: 43px">
 					<b-form-group label="Input Name of File">
 						<b-form-input 
 							required 
