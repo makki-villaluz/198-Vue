@@ -124,9 +124,9 @@
 			</div>
 			<div v-else-if="addStopPage === 2">
 				<b-form @submit.prevent="addPoints">
-					<div style="margin: 30px 0 30px">
+					<div style="margin-top: 15px">
 						<p>Input Bottom Right Point</p>
-						<b-form-group label="Latitude" label-cols="4">
+						<b-form-group label="Latitude" label-cols="4" style="margin: 37px 0 0">
 							<b-form-input 
 								required 
 								class="form-control-sm" 
@@ -139,7 +139,9 @@
 								Not a number
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<b-form-group label="Longitude" label-cols="4">
+						<div v-if="inputState.lat1==false" style="margin-bottom: 4px"></div>
+						<div v-else style="margin-bottom: 20px"></div>
+						<b-form-group label="Longitude" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
 								class="form-control-sm" 
@@ -152,6 +154,8 @@
 								Not a number
 							</b-form-invalid-feedback>
 						</b-form-group>
+						<div v-if="inputState.long1==false" style="margin-top: 17px"></div>
+						<div v-else style="margin-top: 33px"></div>
 					</div>
 					<div v-if="inputState.lat2==false || inputState.long2==false">
 						<b-button
