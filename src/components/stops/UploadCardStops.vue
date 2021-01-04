@@ -175,7 +175,7 @@
 				</b-form>
 			</div>
 			<div v-else-if="addStopPage === 3">
-				<div style="height: 192px">
+				<div style="height: 205px">
 					<b-alert 
 						:show="3"
 						:variant="alert.variant"
