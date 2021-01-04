@@ -24,8 +24,8 @@
 				{{ modal.title }}
 			</template>
 			<b-form @submit.prevent="editRoute">
-				<div style="margin: 20px 0 40px">
-					<b-form-group label="Input New Name of File">
+				<div style="margin-top: 20px">
+					<b-form-group label="Input New Name of File" style="margin-bottom: 0">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
@@ -38,7 +38,9 @@
 							Name already taken
 						</b-form-invalid-feedback>
 					</b-form-group>
-					<b-form-group label="Input New Cell Size of File">
+					<div v-if="modal.stateName==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 27px"></div>
+					<b-form-group label="Input New Cell Size of File" style="margin-bottom: 0">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
@@ -51,6 +53,8 @@
 							Not a number greater than 0
 						</b-form-invalid-feedback>
 					</b-form-group>
+					<div v-if="modal.stateCellSize==false" style="margin-top: 24px"></div>
+					<div v-else style="margin-top: 47px"></div>
 				</div>
 				<div v-if="modal.stateName==false || modal.stateCellSize==false">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Edit</b-button>

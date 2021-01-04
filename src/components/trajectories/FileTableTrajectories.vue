@@ -22,8 +22,8 @@
 				{{ modal.title }}
 			</template>
 			<b-form @submit.prevent="editTrajectory">
-				<div style="margin: 20px 0 40px">
-					<b-form-group label="Input New Name of File">
+				<div style="margin-top: 20px">
+					<b-form-group label="Input New Name of File" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
@@ -36,6 +36,8 @@
 							Name already taken
 						</b-form-invalid-feedback>
 					</b-form-group>
+					<div v-if="modal.stateName==false" style="margin-top: 24px"></div>
+					<div v-else style="margin-top: 47px"></div>
 				</div>
 				<div v-if="modal.stateName==false">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Edit</b-button>

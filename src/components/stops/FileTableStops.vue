@@ -27,8 +27,8 @@
 				{{ modal.title }}
 			</template>
 			<b-form @submit.prevent="editStop">
-				<div style="margin: 20px 0 40px">
-					<b-form-group label="Input New Name of File:">
+				<div style="margin-top: 20px">
+					<b-form-group label="Input New Name of File:" style="margin-bottom: 0">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
@@ -40,8 +40,10 @@
 						<b-form-invalid-feedback id="name-validity">
 							Name already taken
 						</b-form-invalid-feedback>
+					<div v-if="modal.stateName==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 27px"></div>
 					</b-form-group>
-					<b-form-group label="Input New Minimum Time of File">
+					<b-form-group label="Input New Minimum Time of File" style="margin-bottom: 0">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
@@ -53,8 +55,10 @@
 						<b-form-invalid-feedback id="min-time-validity">
 							Not a number greater than 0
 						</b-form-invalid-feedback>
+					<div v-if="modal.stateMinTime==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 27px"></div>
 					</b-form-group>
-					<b-form-group label="Input New Maximum Time of File">
+					<b-form-group label="Input New Maximum Time of File" style="margin-bottom: 0">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm" 
@@ -67,6 +71,8 @@
 							Not a number greater than min time
 						</b-form-invalid-feedback>
 					</b-form-group>
+					<div v-if="modal.stateMaxTime==false" style="margin-top: 24px"></div>
+					<div v-else style="margin-top: 47px"></div>
 				</div>
 				<div v-if="modal.stateName==false || modal.stateMinTime==false || modal.stateMaxTime==false">	
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Edit</b-button>
