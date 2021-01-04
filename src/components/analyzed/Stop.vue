@@ -22,7 +22,7 @@
 					</template>
 				</b-table>
 			</div>
-			<div v-else-if="violation.violations.length === 0">
+			<div v-else-if="violation.violations.length === null">
 				<div class="center" style="height: 258px">
 					<b-spinner label="spinning"></b-spinner>				
 				</div>
@@ -73,7 +73,7 @@ export default {
 				selected: [],
 			},
 			violation: {
-				violations: [],
+				violations: null,
 				fields: ["number", {key: "violation", label: "type"}, "duration", {key: "time1", label: "Start"}, {key: "time2", label: "End"}]
 			},
 		}
@@ -89,7 +89,7 @@ export default {
 		},
 		resetCard() {
 			this.stop.selected = [];
-			this.violation.violations = [];
+			this.violation.violations = null;
 		}
 	},
 	created() {
