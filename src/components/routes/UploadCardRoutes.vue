@@ -5,8 +5,8 @@
 				<h3>Upload Route Trajectory GPX File</h3>
 			</template>
 			<b-form @submit.prevent="uploadRoute">
-				<div style="margin-top: 15px">
-					<b-form-group label="Input Name of File">
+				<div style="margin-top: 14px">
+					<b-form-group label="Input Name of File" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm"
@@ -15,11 +15,13 @@
 							aria-describedby="name-validity"
 							@update="validateName"
 						></b-form-input>
-					<b-form-invalid-feedback style="margin-bottom: 0" id="name-validity">
+					<b-form-invalid-feedback id="name-validity">
 							Name already taken
 					</b-form-invalid-feedback>
 					</b-form-group>
-					<b-form-group label="Cell Size (km)" label-cols="5">
+					<div v-if="inputState.name==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 27px"></div>
+					<b-form-group label="Cell Size (km)" label-cols="5" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
 							class="form-control-sm" 
@@ -28,13 +30,21 @@
 							aria-describedby="cell-size-validity"
 							@update="validateCellSize"
 						></b-form-input>
-						<b-form-invalid-feedback style="margin-bottom: 0" id="cell-size-validity">
+						<b-form-invalid-feedback id="cell-size-validity">
 							Not a number greater than 0
 						</b-form-invalid-feedback>
 					</b-form-group>
+					<div v-if="inputState.cell_size==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 20px"></div>
 				</div>
-				<b-form-file class="w-25" v-model="gpx_file" required plain></b-form-file>
-				<div v-if="inputState.name==false || inputState.cell_size==false" style="margin-top: 15px">
+				<b-form-file 
+					plain
+					required 
+					class="w-25" 
+					v-model="gpx_file"
+					style="margin-bottom: 14px" 
+				></b-form-file>
+				<div v-if="inputState.name==false || inputState.cell_size==false">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Upload</b-button>
 				</div>
 				<div v-else>
