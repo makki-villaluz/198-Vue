@@ -2,9 +2,9 @@
 	<div>
 		<b-card bg-variant="light" style="height: 300px">
 			<div v-if="compute === false">
-				<h4 style="text-align: center; margin: 0 0 20px">Speeding Violations</h4>
+				<h4 style="text-align: center; margin: 0 0 30px">Speeding Violations</h4>
 				<b-form @submit.prevent="getSpeeding">
-					<b-form-group label="Input Time Limit (minutes)">
+					<b-form-group label="Input Time Limit (minutes)" label-cols="5" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
 							class="w-100" 
@@ -17,7 +17,9 @@
 							Not a number greater than 0
 						</b-form-invalid-feedback>
 					</b-form-group>
-					<b-form-group label="Input Speed Limit (km/h)">
+					<div v-if="stateTimeLimit==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 27px"></div>
+					<b-form-group label="Input Speed Limit (km/h)" label-cols="5" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
 							class="w-100" 
@@ -30,6 +32,8 @@
 							Not a number greater than 0
 						</b-form-invalid-feedback>
 					</b-form-group>
+					<div v-if="stateSpeedLimit==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 27px"></div>
 					<b-form-radio-group
 						:options="options"
 						v-model="speed_type"
