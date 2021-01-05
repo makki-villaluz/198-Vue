@@ -83,6 +83,8 @@ export default {
 		modalInfo(id, name) {
 			this.modal.id = id;
 			this.modal.title = name;
+			this.modal.name = name;
+			this.modal.stateName = true;
 		},
 		resetModal() {
 			this.modal.name = "";
@@ -109,7 +111,7 @@ export default {
 			if (this.modal.name.length === 0) {
 				this.modal.stateName = null;
 			}
-			else if(taken === undefined) {
+			else if(taken === undefined || this.modal.name === this.modal.title) {
 				this.modal.stateName = true;
 			}
 			else {

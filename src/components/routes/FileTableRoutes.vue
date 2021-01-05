@@ -13,8 +13,8 @@
 				{{ row.item.cell_size }}km
 			</template>
 			<template #cell(actions)="row">
-				<b-button style="margin: 0 5px 0" variant="outline-primary" v-b-modal="'edit-modal'" @click="modalInfo(row.item.id, row.item.name)">Edit</b-button>
-				<b-button style="margin: 0 5px 0" variant="outline-danger" v-b-modal="'delete-modal'" @click="modalInfo(row.item.id, row.item.name)">Delete</b-button>
+				<b-button style="margin: 0 5px 0" variant="outline-primary" v-b-modal="'edit-modal'" @click="modalInfo(row.item.id, row.item.name, row.item.cell_size)">Edit</b-button>
+				<b-button style="margin: 0 5px 0" variant="outline-danger" v-b-modal="'delete-modal'" @click="modalInfo(row.item.id, row.item.name, '')">Delete</b-button>
 			</template>
 		</b-table>
 
@@ -99,9 +99,13 @@ export default {
 		}
 	},
 	methods: {
-		modalInfo(id, name) {
+		modalInfo(id, name, cell_size) {
 			this.modal.id = id;
 			this.modal.title = name;
+			this.modal.name = name;
+			this.modal.cell_size = cell_size;
+			this.modal.stateName = true;
+			this.modal.stateCellSize = true;
 		},
 		resetModal() {
 			this.modal.id = null;
@@ -130,7 +134,7 @@ export default {
 			if (this.modal.name.length === 0) {
 				this.modal.stateName = null;
 			}
-			else if (taken === undefined){
+			else if (taken === undefined || this.modal.name === this.modal.title){
 				this.modal.stateName = true;
 			}
 			else {
