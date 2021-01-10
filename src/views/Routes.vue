@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchRoute, postRoute, updateRoute, removeRoute, fetchRoutes } from "@/api/index.js";
 import FileTableRoutes from "@/components/routes/FileTableRoutes";
 import UploadCardRoutes from "@/components/routes/UploadCardRoutes";
 import Map from "@/components/Map";
@@ -63,7 +63,7 @@ export default {
   methods: {
     rowSelected(selected) {
       if (selected.length) {
-        axios.get("http://localhost:5000/route/" + selected[0].id.toString())
+        fetchRoute(selected[0].id)
           .then(res => {
             this.map.center = [res.data.geojson.coordinates[0][1], res.data.geojson.coordinates[0][0]];
             this.map.geojson = res.data.geojson;
@@ -84,7 +84,7 @@ export default {
       formData.append("cell_size", cell_size);
       formData.append("gpx_file", gpx_file);
 
-      axios.post("http://localhost:5000/route", formData)
+      postRoute(formData)
         .then(res => {
 					this.routes = [...this.routes, res.data];
           this.alert.message = "File successfully uploaded"
@@ -103,7 +103,7 @@ export default {
       formData.append("name", name);
       formData.append("cell_size", cell_size);
 
-      axios.put("http://localhost:5000/route/" + id.toString(), formData)
+      updateRoute(id, formData)
         .then(res => {
           const index = this.routes.findIndex(route => route.id == res.data.id);
           this.routes[index].name = res.data.name;
@@ -119,7 +119,7 @@ export default {
         });
     },
     deleteRoute(id) {
-      axios.delete("http://localhost:5000/route/" + id.toString())
+      removeRoute(id)
         .then(res => {
 					this.routes = this.routes.filter(route => route.id !== res.data.id);
           this.alert.message = "File successfully deleted";
@@ -139,7 +139,7 @@ export default {
     },
   },
   created() {
-    axios.get("http://localhost:5000/route")
+    fetchRoutes()
       .then(res => this.routes = res.data)
       .catch(err => console.log(err));
   }

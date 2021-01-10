@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchLiveness } from "@/api/index.js";
 
 export default {
 	name: "Liveness",
@@ -89,7 +89,7 @@ export default {
 			const formData = new FormData();
 			formData.append("time_limit", this.time_limit);
 			
-			axios.post("http://localhost:5000/liveness/" + this.id.toString(), formData)
+			fetchLiveness(this.id, formData)
 				.then(res => this.liveness = res.data)
 				.catch(err => console.log(err));
 		},

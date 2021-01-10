@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import { fetchStops, fetchStopViolations } from "@/api/index.js";
 
 export default {
 	name: "Stop",
@@ -82,7 +82,7 @@ export default {
 		rowSelected(selected) {
 			if (selected.length) {
 				this.stop.selected = selected;
-				axios.get("http://localhost:5000/stop/" + this.id.toString() + "/" + selected[0].id.toString())
+				fetchStopViolations(this.id, selected[0].id)
 					.then(res => this.violation.violations = res.data)
 					.catch(err => console.log(err))
 			}
@@ -93,7 +93,7 @@ export default {
 		}
 	},
 	created() {
-		axios.get("http://localhost:5000/stop")
+		fetchStops()
 			.then(res => this.stop.stops = res.data)
 			.catch(err => console.log(err))
 	}

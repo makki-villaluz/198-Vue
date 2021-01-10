@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchDistance } from "@/api/index.js";
 
 export default {
 	name: "Distance",
@@ -30,8 +30,8 @@ export default {
 		}
 	},
   created() {
-    axios.get("http://localhost:5000/distance/" + this.id.toString())
-      .then(res => this.distance = res.data.distance)
+    fetchDistance(this.id)
+			.then(res => this.distance = res.data.distance)
       .catch(err => console.log(err));
   },
 }

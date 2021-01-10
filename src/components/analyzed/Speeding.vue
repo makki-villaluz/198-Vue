@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchSpeedingViolations } from "@/api/index.js";
 
 export default {
 	Name: "Speeding",
@@ -124,7 +124,7 @@ export default {
 			formData.append("speed_limit", this.speed_limit);
 			formData.append("time_limit", this.time_limit);
 			
-			axios.post("http://localhost:5000/speeding/" + this.id.toString(), formData)
+			fetchSpeedingViolations(this.id, formData)
 				.then(res => this.violations = res.data)
 				.catch(err => console.log(err));
 		},

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchRoutes, fetchLoops } from "@/api/index.js";
 
 export default {
 	name: "Loop",
@@ -57,7 +57,7 @@ export default {
 		rowSelected(selected) {
 			if (selected.length) {
 				this.selected = selected;
-				axios.get("http://localhost:5000/loop/" + this.id.toString() + "/" + selected[0].id.toString())
+				fetchLoops(this.id, selected[0].id)
 					.then(res => this.loops = res.data.loops)
 					.catch(err => console.log(err));
 			}
@@ -68,7 +68,7 @@ export default {
 		}
 	},
 	created() {
-    axios.get("http://localhost:5000/route")
+		fetchRoutes()
       .then(res => this.routes = res.data)
       .catch(err => console.log(err));
 	},

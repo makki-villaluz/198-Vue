@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchTrajectory, postTrajectory, updateTrajectory, removeTrajectory, fetchTrajectories } from "@/api/index.js";
 import FileTableTrajectories from "@/components/trajectories/FileTableTrajectories";
 import UploadCardTrajectories from "@/components/trajectories/UploadCardTrajectories";
 import Map from "@/components/Map";
@@ -63,7 +63,7 @@ export default {
   methods: {
     rowSelected(selected) {
       if (selected.length) {
-        axios.get("http://localhost:5000/vehicle/" + selected[0].id.toString())
+        fetchTrajectory(selected[0].id)
           .then(res => {
             this.map.center = [res.data.geojson.coordinates[0][1], res.data.geojson.coordinates[0][0]];
             this.map.geojson = res.data.geojson;
@@ -83,7 +83,7 @@ export default {
       formData.append("name", name);
       formData.append("gpx_file", gpx_file);
 
-      axios.post("http://localhost:5000/vehicle", formData)
+      postTrajectory(formData)
         .then(res => {
           this.trajectories = [...this.trajectories, res.data];
           this.alert.message = "File successfully uploaded";
@@ -101,7 +101,7 @@ export default {
 
       formData.append("name", name)
 
-      axios.put("http://localhost:5000/vehicle/" + id.toString(), formData)
+      updateTrajectory(id, formData)
         .then(res => {
           const index = this.trajectories.findIndex(trajectory => trajectory.id == res.data.id);
           this.trajectories[index].name = res.data.name;
@@ -116,7 +116,7 @@ export default {
         });
     },
     deleteTrajectory(id) {
-      axios.delete("http://localhost:5000/vehicle/" + id.toString())
+      removeTrajectory(id)
         .then(res => { 
           this.trajectories = this.trajectories.filter(trajectory => trajectory.id !== res.data.id);
           this.alert.message = "File successfully deleted"
@@ -136,7 +136,7 @@ export default {
     },
   },
   created() {
-    axios.get("http://localhost:5000/vehicle")
+    fetchTrajectories()
       .then(res => this.trajectories = res.data)
       .catch(err => console.log(err));
   }

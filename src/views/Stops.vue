@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import { fetchStop, postStop, updateStop, removeStop, fetchStops} from "@/api/index.js";
 import UploadCardStops from "@/components/stops/UploadCardStops";
 import FileTableStops from "@/components/stops/FileTableStops";
 import Map from "@/components/Map";
@@ -63,7 +63,7 @@ export default {
 	methods: {
 		rowSelected(selected) {
 			if (selected.length) {
-				axios.get("http://localhost:5000/stop/" + selected[0].id.toString())
+				fetchStop(selected[0].id)
 					.then(res => {
 						this.map.center = [res.data.geojson.coordinates[0][1], res.data.geojson.coordinates[0][0]];
 						this.map.geojson = res.data.geojson;
@@ -86,7 +86,7 @@ export default {
 				"stops": stops
 			}
 
-			axios.post("http://localhost:5000/stop", data)
+			postStop(data)
 				.then(res => {
 					this.stops = [...this.stops, res.data];
           this.alert.message = "File successfully uploaded"
@@ -106,7 +106,7 @@ export default {
 			formData.append("min_time", min_time);
 			formData.append("max_time", max_time);
 
-			axios.put("http://localhost:5000/stop/" + id.toString(), formData)
+			updateStop(id, formData)
 				.then(res => {
 					const index = this.stops.findIndex(stop => stop.id == res.data.id);
 					this.stops[index].name = res.data.name;
@@ -123,7 +123,7 @@ export default {
         });
 		},
 		deleteStop(id) {
-			axios.delete("http://localhost:5000/stop/" + id.toString())
+			removeStop(id)
 				.then(res => {
 					this.stops = this.stops.filter(stop => stop.id !== res.data.id);
           this.alert.message = "File successfully deleted";
@@ -143,7 +143,7 @@ export default {
     },
 	},
 	created() {
-		axios.get("http://localhost:5000/stop")
+		fetchStops()
 			.then(res => this.stops = res.data)
 			.catch(err => console.log(err));
 	},

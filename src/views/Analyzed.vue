@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchTrajectory } from "@/api/index.js";
 import Distance from "@/components/analyzed/Distance";
 import Liveness from "@/components/analyzed/Liveness";
 import Speeding from "@/components/analyzed/Speeding";
@@ -74,7 +74,7 @@ export default {
 		}
 	},
 	created() {
-		axios.get("http://localhost:5000/vehicle/" + this.id.toString())
+		fetchTrajectory(this.id)
 			.then(res => {
 				this.map.center = [res.data.geojson.coordinates[0][1], res.data.geojson.coordinates[0][0]];
 				this.map.geojson = res.data.geojson;
