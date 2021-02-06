@@ -22,7 +22,7 @@
 				</div>
 				<div v-if="inputState.name==false" style="margin-top: 0px"></div>
 				<div v-else style="margin-top: 39px"></div>
-				<b-form-file class="w-25" v-model="gpx_file" required plain></b-form-file>
+				<b-form-file v-model="gpx_file" required plain></b-form-file>
 				<div v-if="inputState.name==false" style="margin-top: 31px">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Upload</b-button>
 				</div>

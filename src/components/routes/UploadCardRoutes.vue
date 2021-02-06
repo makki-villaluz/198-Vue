@@ -39,8 +39,7 @@
 				</div>
 				<b-form-file 
 					plain
-					required 
-					class="w-25" 
+					required
 					v-model="gpx_file"
 					style="margin-bottom: 14px" 
 				></b-form-file>
