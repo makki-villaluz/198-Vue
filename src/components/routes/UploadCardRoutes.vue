@@ -6,7 +6,7 @@
 			</template>
 			<b-form @submit.prevent="uploadRoute">
 				<div style="margin-top: 14px">
-					<b-form-group label="Input Name of File" style="margin-bottom: 0px">
+					<b-form-group label="Input Route Name" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
 							class="w-100 form-control-sm"
