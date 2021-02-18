@@ -1,21 +1,23 @@
 <template>
 	<LMap :zoom="zoom" :center="center">
 		<LTileLayer :url="url" :attribution="attribution"></LTileLayer>
-		<LGeoJson :geojson="geojson" :options="options" v-if="geojson !== null"></LGeoJson>
+		<LGeoJson v-if="geojson !== null" :geojson="geojson" :options="options"></LGeoJson>
+		<LPolygon v-if="polygon !== null" :lat-lngs="polygon"></LPolygon>
 	</LMap>
 </template>
 
 <script>
 import L from "leaflet";
-import { LMap, LTileLayer, LGeoJson } from "vue2-leaflet";
+import { LMap, LTileLayer, LGeoJson, LPolygon } from "vue2-leaflet";
 
 export default {
 	name: "Map",
-	props: ["zoom", "center", "geojson"],
+	props: ["zoom", "center", "geojson", "polygon"],
   components: {
 		LMap,
 		LTileLayer,
 		LGeoJson,
+		LPolygon,
 	},
 	data() {
 		return {
