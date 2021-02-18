@@ -17,7 +17,7 @@
 				<Map
 					:zoom="map.zoom"
 					:center="map.center"
-					:geojson="map.geojson"
+					:polygon="map.polygon"
 				/>
 			</b-col>
 		</b-row>
@@ -43,14 +43,14 @@ export default {
 	components: {
 		UploadCardStops,
 		FileTableStops,
-		Map
+		Map,
 	},
 	data() {
 		return {
 			map: {
 				zoom: 0,
 				center: [0, 0],
-				geojson: null,
+				polygon: null,
 			},
 			alert: {
 				message: "",
@@ -61,12 +61,27 @@ export default {
 		}
 	},
 	methods: {
+		definePolygon(geojson) {
+			const latlng = geojson.map(x => [x[1], x[0]]);
+
+			var result = [];
+			for (var i = 0; i < latlng.length; i += 2) {
+				const upperLeft = latlng[i];
+				const upperRight = [latlng[i][0], latlng[i+1][1]];
+				const lowerRight = latlng[i+1];
+				const lowerLeft = [latlng[i+1][0], latlng[i][1]];
+
+				result.push([upperLeft, upperRight, lowerRight, lowerLeft]);
+			}
+
+			return result;
+		},
 		rowSelected(selected) {
 			if (selected.length) {
 				fetchStop(selected[0].id)
 					.then(res => {
 						this.map.center = [res.data.geojson.coordinates[0][1], res.data.geojson.coordinates[0][0]];
-						this.map.geojson = res.data.geojson;
+						this.map.polygon = this.definePolygon(res.data.geojson.coordinates);
 					})
 					.catch(err => console.log(err))
 				this.map.zoom = 12;
@@ -74,7 +89,7 @@ export default {
 			else {
 				this.map.zoom = 0;
 				this.map.center = [0, 0];
-				this.map.geojson = null;
+				this.map.polygon = null;
 			}
 		},
 		uploadStop(name, filename, min_time, max_time, stops) {
