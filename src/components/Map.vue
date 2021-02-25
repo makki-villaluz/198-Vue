@@ -2,7 +2,7 @@
 	<LMap :bounds="bounds" :center="center" :zoom="zoom">
 		<LTileLayer :url="url" :attribution="attribution"></LTileLayer>
 		<LGeoJson v-if="geojson !== null" :geojson="geojson" :options="options"></LGeoJson>
-		<LPolygon v-if="polygon !== null" :lat-lngs="polygon"></LPolygon>
+		<LPolygon v-if="polygon !== null" :lat-lngs="polygon" color="red" weight="2" fillColor="red"></LPolygon>
 	</LMap>
 </template>
 
