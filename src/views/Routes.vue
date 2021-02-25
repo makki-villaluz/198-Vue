@@ -15,8 +15,6 @@
       </b-col>
       <b-col cols="8">
         <Map
-          :zoom="map.zoom"
-          :center="map.center"
           :geojson="map.geojson"
         />
       </b-col>
@@ -48,8 +46,6 @@ export default {
   data() {
     return {
       map: {
-        zoom: 0,
-        center: [0, 0],
         geojson: null,
       },
       alert: {
@@ -65,15 +61,11 @@ export default {
       if (selected.length) {
         fetchRoute(selected[0].id)
           .then(res => {
-            this.map.center = [res.data.geojson.coordinates[0][1], res.data.geojson.coordinates[0][0]];
             this.map.geojson = res.data.geojson;
           })
           .catch(err => console.log(err));
-        this.map.zoom = 12;
       }
       else {
-        this.map.zoom = 0;
-        this.map.center = [0, 0];
         this.map.geojson = null;
       }
     },
