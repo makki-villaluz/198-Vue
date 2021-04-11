@@ -10,29 +10,31 @@
 			:fields="table.fields"
 		>
 			<template #cell(actions)="row">
-				<b-button 
-					style="margin: 0 5px 0; padding: 10px 12px 6px" 
-					variant="outline-info" 
-					:to="{ name: 'Analyzed', params: { id: row.item.id, name: row.item.name, filename: row.item.filename } }"
-				>
-					<b-icon-info-square></b-icon-info-square>
-				</b-button>
-				<b-button 
-					style="margin: 0 5px 0; padding: 10px 12px 6px" 
-					variant="outline-primary" 
-					v-b-modal="'edit-modal'" 
-					@click="modalInfo(row.item.id, row.item.name)"
-				>
-					<b-icon-pencil-square></b-icon-pencil-square>
-				</b-button>
-				<b-button
-					style="margin: 0 5px 0; padding: 10px 12px 6px" 
-					variant="outline-danger" 
-					v-b-modal="'delete-modal'" 
-					@click="modalInfo(row.item.id, row.item.name)"
-				>
-					<b-icon-trash></b-icon-trash>
-				</b-button>
+				<div style="float: right">
+					<b-button 
+						style="margin: 0 5px 0; padding: 10px 12px 6px" 
+						variant="outline-info" 
+						:to="{ name: 'Analyzed', params: { id: row.item.id, name: row.item.name, filename: row.item.filename } }"
+					>
+						<b-icon-info-square></b-icon-info-square>
+					</b-button>
+					<b-button 
+						style="margin: 0 5px 0; padding: 10px 12px 6px" 
+						variant="outline-primary" 
+						v-b-modal="'edit-modal'" 
+						@click="modalInfo(row.item.id, row.item.name)"
+					>
+						<b-icon-pencil-square></b-icon-pencil-square>
+					</b-button>
+					<b-button
+						style="margin: 0 5px 0; padding: 10px 12px 6px" 
+						variant="outline-danger" 
+						v-b-modal="'delete-modal'" 
+						@click="modalInfo(row.item.id, row.item.name)"
+					>
+						<b-icon-trash></b-icon-trash>
+					</b-button>
+				</div>
 			</template>
 		</b-table>
 

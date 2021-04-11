@@ -16,22 +16,24 @@
 				{{ row.item.max_time }}s
 			</template>
 			<template #cell(actions)="row">
-				<b-button 
-					style="margin: 0 5px 0; padding: 10px 12px 6px" 
-					variant="outline-primary" 
-					v-b-modal="'edit-modal'" 
-					@click="modalInfo(row.item.id, row.item.name, row.item.min_time, row.item.max_time)"
-				>
-					<b-icon-pencil-square></b-icon-pencil-square>
-				</b-button>
-				<b-button 
-					style="margin: 0 5px 0; padding: 10px 12px 6px" 
-					variant="outline-danger" 
-					v-b-modal="'delete-modal'" 
-					@click="modalInfo(row.item.id, row.item.name, '','')"
-				>
-					<b-icon-trash></b-icon-trash>
-				</b-button>
+				<div style="float: right">
+					<b-button 
+						style="margin: 0 5px 0; padding: 10px 12px 6px" 
+						variant="outline-primary" 
+						v-b-modal="'edit-modal'" 
+						@click="modalInfo(row.item.id, row.item.name, row.item.min_time, row.item.max_time)"
+					>
+						<b-icon-pencil-square></b-icon-pencil-square>
+					</b-button>
+					<b-button 
+						style="margin: 0 5px 0; padding: 10px 12px 6px" 
+						variant="outline-danger" 
+						v-b-modal="'delete-modal'" 
+						@click="modalInfo(row.item.id, row.item.name, '','')"
+					>
+						<b-icon-trash></b-icon-trash>
+					</b-button>
+				</div>
 			</template>
 		</b-table>
 
