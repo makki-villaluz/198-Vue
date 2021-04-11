@@ -2,7 +2,7 @@
 	<div>
 		<b-card>
 			<template #header>
-				<h3>Upload Stop Coordinates</h3>
+				<h3>Stop Coordinates Uploader</h3>
 			</template>
 			<div v-if="addStopPage === 0">
 				<b-form @submit.prevent="goToNextPage">

@@ -2,7 +2,7 @@
 	<div>
 		<b-card>
 			<template #header>
-				<h3>Upload Route Trajectory GPX File</h3>
+				<h3>Route Trajectory Uploader</h3>
 			</template>
 			<b-form @submit.prevent="uploadRoute">
 				<div style="margin-top: 14px">
