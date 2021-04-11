@@ -75,10 +75,10 @@
 					<div v-else style="margin-top: 47px"></div>
 				</div>
 				<div v-if="modal.stateName==false || modal.stateMinTime==false || modal.stateMaxTime==false">	
-					<b-button disabled type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+					<b-button disabled type="submit" variant="outline-primary" style="float: right">Save</b-button>
 				</div>
 				<div v-else>
-					<b-button type="submit" variant="outline-primary" style="float: right">Edit</b-button>
+					<b-button type="submit" variant="outline-primary" style="float: right">Save</b-button>
 				</div>
 			</b-form>
 		</b-modal>
