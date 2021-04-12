@@ -3,8 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Trajectories from '../views/Trajectories.vue'
 import Routes from '../views/Routes.vue'
-import Analyzed from '../views/Analyzed.vue'
 import Stops from '../views/Stops.vue'
+import About from '../views/About.vue'
+import Analyzed from '../views/Analyzed.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/stops',
     name: 'Stops',
     component: Stops,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
   },
   {
     path: '/trajectory/analyzed/:id',

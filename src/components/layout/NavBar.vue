@@ -5,6 +5,7 @@
       <b-nav-item to="/trajectories">Trajectories</b-nav-item>
       <b-nav-item to="/routes">Routes</b-nav-item>
       <b-nav-item to="/stops">Stops</b-nav-item>
+      <b-nav-item to="/about">About</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
