@@ -120,7 +120,7 @@ export default {
 		return {
 			table: {
 				selected: [],
-				fields: ["id", "name", "min_time", "max_time", "filename", {key: "actions", label: ""}],
+				fields: ["id", "name", "date_uploaded", "min_time", "max_time", "filename", {key: "actions", label: ""}],
 			},
 			modal: {
 				title: "",

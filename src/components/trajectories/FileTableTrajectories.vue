@@ -91,7 +91,7 @@ export default {
 		return {
 			table: {
 				selected: [],
-				fields: ["id", "name", "filename", {key: "actions", label: ""}],
+				fields: ["id", "name", "date_uploaded", "filename", {key: "actions", label: ""}],
 			},
 			modal: {
 				title: "",
