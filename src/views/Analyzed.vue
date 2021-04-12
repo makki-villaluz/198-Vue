@@ -7,6 +7,7 @@
 						<Info
 							:id="id"
 							:name="name"
+							:date_uploaded="date_uploaded"
 							:filename="filename"
 						/>
 					</b-col>
@@ -52,7 +53,7 @@ import Map from "@/components/Map";
 
 export default {
 	name: "Analyzed",
-	props: ["id", "name", "filename"],
+	props: ["id", "name", "date_uploaded", "filename"],
 	components: {
 		Distance,
 		Liveness,

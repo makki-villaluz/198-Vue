@@ -14,7 +14,7 @@
 					<b-button 
 						style="margin: 0 5px 0; padding: 10px 12px 6px" 
 						variant="outline-info" 
-						:to="{ name: 'Analyzed', params: { id: row.item.id, name: row.item.name, filename: row.item.filename } }"
+						:to="{ name: 'Analyzed', params: { id: row.item.id, name: row.item.name, date_uploaded: row.item.date_uploaded, filename: row.item.filename } }"
 					>
 						<b-icon-info-square></b-icon-info-square>
 					</b-button>
