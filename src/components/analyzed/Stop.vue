@@ -83,7 +83,10 @@ export default {
 			if (selected.length) {
 				this.stop.selected = selected;
 				fetchStopViolations(this.id, selected[0].id)
-					.then(res => this.violation.violations = res.data)
+					.then(res => {
+						this.violation.violations = res.data;
+						this.$emit("update-stop-violations", this.violation.violations);
+					})
 					.catch(err => console.log(err))
 			}
 		},
