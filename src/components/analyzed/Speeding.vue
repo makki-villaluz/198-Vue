@@ -125,7 +125,10 @@ export default {
 			formData.append("time_limit", this.time_limit);
 			
 			fetchSpeedingViolations(this.id, formData)
-				.then(res => this.violations = res.data)
+				.then(res => {
+					this.violations = res.data;
+					this.$emit("update-speeding-violations", this.violations);
+				})
 				.catch(err => console.log(err));
 		},
 		resetCard() {
