@@ -19,6 +19,8 @@
 			<b-col cols="8">
 				<Map
 					:geojson="map.geojson"
+					:speeding="map.speeding"
+					:stop="map.stop"
 				/>
 			</b-col>
 		</b-row>
@@ -32,10 +34,16 @@
 		</b-row>
 		<b-row style="padding: 30px 0 60px">
 			<b-col cols="6">
-				<Speeding :id="id"/>
+				<Speeding 
+					:id="id"
+					v-on:update-speeding-violations="updateSpeedingViolations"
+				/>
 			</b-col>
 			<b-col cols="6">
-				<Stop :id="id"/>
+				<Stop 
+					:id="id"
+					v-on:update-stop-violations="updateStopViolations"
+				/>
 			</b-col>
 		</b-row>
 	</div>
@@ -66,8 +74,18 @@ export default {
 	data() {
 		return {
 			map: {
-				geojson: null
+				geojson: null,
+				speeding: null,
+				stop: null,
 			},
+		}
+	},
+	methods: {
+		updateSpeedingViolations(violations){
+			this.map.speeding = violations;
+		},
+		updateStopViolations(violations){
+			this.map.stop = violations;
 		}
 	},
 	created() {
