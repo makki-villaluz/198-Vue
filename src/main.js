@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 
 import './plugins/bootstrap-vue';
-import { BootstrapVue, BIconCircle, BIconCircleFill, BIconTrash, BIconPencilSquare, BIconInfoSquare} from 'bootstrap-vue'
+import { BootstrapVue, BIconCircle, BIconCircleFill, BIconTrash, BIconPencilSquare, BIconClipboardData} from 'bootstrap-vue'
 
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
@@ -22,7 +22,7 @@ Vue.component('BIconCircle', BIconCircle)
 Vue.component('BIconCircleFill', BIconCircleFill)
 Vue.component('BIconTrash', BIconTrash)
 Vue.component('BIconPencilSquare', BIconPencilSquare)
-Vue.component('BIconInfoSquare', BIconInfoSquare)
+Vue.component('BIconClipboardData', BIconClipboardData)
 
 new Vue({
   router,
