@@ -2,8 +2,8 @@
   <div class="home">
     <b-jumbotron>
       <b-container>
-        <h1 class="display-3">Team 2 Project</h1>
-        <p>Present 5 features we've implemented for CS 198</p>
+        <h1 class="display-3">JeePS</h1>
+        <p>An online system for monitoring the service contracting measures of Public Utility Vehicles</p>
       </b-container>
     </b-jumbotron>
 
