@@ -1,6 +1,9 @@
 <template>
   <b-navbar type="dark" variant="dark" fixed-top>
-    <b-navbar-brand to="/">NDSG</b-navbar-brand>
+    <b-navbar-brand to="/">
+      <img src="/static/favicon.png" height="25">
+      JeePS
+    </b-navbar-brand>
     <b-navbar-nav>
       <b-nav-item to="/trajectories">Trajectories</b-nav-item>
       <b-nav-item to="/routes">Routes</b-nav-item>
