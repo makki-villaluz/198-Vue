@@ -1,7 +1,7 @@
 <template>
 	<div class="container-xl" style="padding-top: 30px">
 		<b-row>
-			<b-col cols="4">
+			<b-col cols="5">
 				<b-row>
 					<b-col cols="12">
 						<Info
@@ -14,9 +14,15 @@
 					<b-col style="padding-top: 30px">
 						<Distance :id="id"/>
 					</b-col>
+					<b-col style="padding-top: 30px">
+						<Loop 
+							:id="id"
+							:route_id="loop.route_id"
+						/> 
+					</b-col>
 				</b-row>
 			</b-col>
-			<b-col cols="8">
+			<b-col cols="7">
 				<Map
 					:geojson="map.geojson"
 					:speeding="map.speeding"
@@ -44,6 +50,11 @@
 					:id="id"
 					v-on:update-stop-violations="updateStopViolations"
 				/>
+			</b-col>
+		</b-row>
+		<b-row style="padding: 30px 0 60px">
+			<b-col cols="12">
+				<Liveness :id="id"/>
 			</b-col>
 		</b-row>
 	</div>
@@ -79,6 +90,9 @@ export default {
 				route_name: null,
 				stops_name: null,
 			},
+			loop: {
+				route_id: null
+			},
 			map: {
 				geojson: null,
 				speeding: null,
@@ -102,6 +116,7 @@ export default {
 				this.info.route_name = res.data.route_name;
 				this.info.stops_name = res.data.stops_name;
 				this.map.geojson = res.data.geojson;
+				this.loop.route_id = res.data.route_id;
 			})
 			.catch(err => console.log(err));
 	},
