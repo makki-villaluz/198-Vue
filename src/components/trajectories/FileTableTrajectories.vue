@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-table outlined fixed hover selectable light 
+		<b-table outlined hover selectable light fixed
 			ref="table" 
 			sticky-header="400px" 
 			head-variant="light" 
@@ -14,7 +14,7 @@
 					<b-button 
 						style="margin: 0 5px 0; padding: 10px 12px 6px" 
 						variant="outline-info" 
-						:to="{ name: 'Analyzed', params: { id: row.item.id, name: row.item.name, date_uploaded: row.item.date_uploaded, filename: row.item.filename } }"
+						:to="{ name: 'Analyzed', params: { id: row.item.id } }"
 					>
 						<b-icon-clipboard-data></b-icon-clipboard-data>
 					</b-button>
@@ -22,7 +22,7 @@
 						style="margin: 0 5px 0; padding: 10px 12px 6px" 
 						variant="outline-primary" 
 						v-b-modal="'edit-modal'" 
-						@click="modalInfo(row.item.id, row.item.name)"
+						@click="modalInfo(row.item.id, row.item.name, row.item.route_id, row.item.stops_id)"
 					>
 						<b-icon-pencil-square></b-icon-pencil-square>
 					</b-button>
@@ -58,8 +58,26 @@
 							Name already taken
 						</b-form-invalid-feedback>
 					</b-form-group>
-					<div v-if="modal.stateName==false" style="margin-top: 24px"></div>
-					<div v-else style="margin-top: 47px"></div>
+					<div v-if="modal.stateName==false" style="margin-top: 4px"></div>
+					<div v-else style="margin-top: 27px"></div>
+					<b-form-group label="Route" style="margin-bottom: 27px" label-cols="2">
+						<b-form-select
+							required
+							class="w-100 form-control-sm"
+							v-model="modal.route_selected"
+							:options="route_options"
+						>
+						</b-form-select>
+					</b-form-group>
+					<b-form-group label="Stops" style="margin-bottom: 47px" label-cols="2">
+						<b-form-select
+							required
+							class="w-100 form-control-sm"
+							v-model="modal.stops_selected"
+							:options="stops_options"
+						>
+						</b-form-select>
+					</b-form-group>
 				</div>
 				<div v-if="modal.stateName==false">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Save</b-button>
@@ -86,39 +104,45 @@
 <script>
 export default {
 	name: "FileTableTrajectories",
-	props: ["trajectories"],
+	props: ["trajectories", "route_options", "stops_options"],
 	data() {
 		return {
 			table: {
 				selected: [],
-				fields: ["id", "name", "date_uploaded", "filename", {key: "actions", label: ""}],
+				fields: ["name", "date_uploaded", "route_name", "stops_name", {key: "actions", label: ""}],
 			},
 			modal: {
 				title: "",
 				id: null,
 				name: "",
 				stateName: null,
+				route_selected: null,
+				stops_selected: null,
 			}
 		}
 	},
 	methods: {
-		modalInfo(id, name) {
+		modalInfo(id, name, route_id, stops_id) {
 			this.modal.id = id;
 			this.modal.title = name;
 			this.modal.name = name;
 			this.modal.stateName = true;
+			this.modal.route_selected = route_id;
+			this.modal.stops_selected = stops_id;
 		},
 		resetModal() {
 			this.modal.name = "";
 			this.modal.id = null;
 			this.modal.title = "";
 			this.modal.stateName = null;
+			this.modal.route_selected = null;
+			this.modal.stops_selected = null;
 		},
 		rowSelected(selected) {
 			this.$emit("row-selected", selected);
 		},
 		editTrajectory() {
-			this.$emit("edit-trajectory", this.modal.id, this.modal.name)
+			this.$emit("edit-trajectory", this.modal.id, this.modal.name, this.modal.route_selected, this.modal.stops_selected);
 			this.resetModal();
 			this.$bvModal.hide("edit-modal");
 		},
