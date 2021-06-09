@@ -1,28 +1,7 @@
 <template>
 	<div>
 		<b-card bg-variant="light" style="height: 300px">
-			<div v-if="stop.selected.length === 0">
-				<h4 style="text-align: center">Stop Violations</h4>
-				<p style="margin-bottom: 8px">Select stop checking stop violations</p>
-				<b-table
-					outlined fixed hover selectable small
-					sticky-header="190px"
-					head-variant="light"
-					select-mode="single"
-					:fields="stop.fields"
-					:items="stop.stops"
-					@row-selected="rowSelected"
-					style="margin-bottom: 0"
-				>
-					<template #cell(min_time)="row">
-						{{ row.item.min_time }}s
-					</template>
-					<template #cell(max_time)="row">
-						{{ row.item.max_time }}s
-					</template>
-				</b-table>
-			</div>
-			<div v-else-if="violation.violations.length === null">
+			<div v-if="violation.violations === null">
 				<div class="center" style="height: 258px">
 					<b-spinner label="spinning"></b-spinner>				
 				</div>
@@ -31,8 +10,8 @@
 				<div v-if="violation.violations.length">
 					<h4 style="text-align: center">{{ violation.violations.length }} Stop Violations</h4>
 					<b-table
-						outlined fixed hover small
-						sticky-header="190px"
+						outlined hover small
+						sticky-header="208px"
 						head-variant="light"
 						:fields="violation.fields"
 						:items="violation.violations"
@@ -48,23 +27,17 @@
 						<h4 style="text-align: center">{{ violation.violations.length }} Stop Violations</h4>
 					</div>
 				</div>
-				<b-button 
-					variant="outline-secondary" 
-					size="sm"
-					style="position: absolute; bottom: 10px; right: 10px"
-					@click="resetCard"
-				>Compute Again</b-button>
 			</div>
 		</b-card>
 	</div>
 </template>
 
 <script>
-import { fetchStops, fetchStopViolations } from "@/api/index.js";
+import { fetchStopViolations } from "@/api/index.js";
 
 export default {
 	name: "Stop",
-	props: ["id"],
+	props: ["id", "stops_id"],
 	data() {
 		return {
 			stop: {
@@ -78,27 +51,16 @@ export default {
 			},
 		}
 	},
-	methods: {
-		rowSelected(selected) {
-			if (selected.length) {
-				this.stop.selected = selected;
-				fetchStopViolations(this.id, selected[0].id)
-					.then(res => {
-						this.violation.violations = res.data;
-						this.$emit("update-stop-violations", this.violation.violations);
-					})
-					.catch(err => console.log(err))
-			}
-		},
-		resetCard() {
-			this.stop.selected = [];
-			this.violation.violations = null;
+	watch: {
+		"stops_id" (stops_id) {
+			fetchStopViolations(this.id, stops_id)
+				.then(res => {
+					this.violation.violations = res.data;
+					this.$emit("update-stop-violations", this.violation.violations);
+				})
+				.catch(err => console.log(err))
+		
 		}
-	},
-	created() {
-		fetchStops()
-			.then(res => this.stop.stops = res.data)
-			.catch(err => console.log(err))
 	}
 }
 </script>

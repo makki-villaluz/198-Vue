@@ -31,14 +31,6 @@
 			</b-col>
 		</b-row>
 		<b-row style="padding-top: 30px">
-			<b-col cols="5">
-				<Loop :id="id"/> 
-			</b-col>
-			<b-col cols="7">
-				<Liveness :id="id"/>
-			</b-col>
-		</b-row>
-		<b-row style="padding: 30px 0 60px">
 			<b-col cols="6">
 				<Speeding 
 					:id="id"
@@ -48,6 +40,7 @@
 			<b-col cols="6">
 				<Stop 
 					:id="id"
+					:stops_id="stop.stops_id"
 					v-on:update-stop-violations="updateStopViolations"
 				/>
 			</b-col>
@@ -93,6 +86,9 @@ export default {
 			loop: {
 				route_id: null
 			},
+			stop: {
+				stops_id: null
+			},
 			map: {
 				geojson: null,
 				speeding: null,
@@ -117,6 +113,7 @@ export default {
 				this.info.stops_name = res.data.stops_name;
 				this.map.geojson = res.data.geojson;
 				this.loop.route_id = res.data.route_id;
+				this.stop.stops_id = res.data.stops_id;
 			})
 			.catch(err => console.log(err));
 	},
