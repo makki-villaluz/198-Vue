@@ -109,7 +109,7 @@ export default {
 		return {
 			table: {
 				selected: [],
-				fields: ["name", "date_uploaded", "route_name", "stops_name", {key: "actions", label: ""}],
+				fields: ["name", "route_name", "stops_name", "date_uploaded", {key: "actions", label: ""}],
 			},
 			modal: {
 				title: "",
