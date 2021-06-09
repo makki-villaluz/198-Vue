@@ -6,7 +6,7 @@
 			</template>
 			<div v-if="addStopPage === 0">
 				<b-form @submit.prevent="goToNextPage">
-					<div style="margin-top: 0px">
+					<div style="margin-top: 11px">
 						<b-form-group label="Input Name" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
@@ -20,8 +20,8 @@
 								Name already taken
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.name==false" style="margin-top: 4px"></div>
-						<div v-else style="margin-top: 27px"></div>
+						<div v-if="inputState.name==false" style="margin-top: 15px"></div>
+						<div v-else style="margin-top: 38px"></div>
 						<b-form-group label="Min Time (s)" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
@@ -35,8 +35,8 @@
 								Not a number greater than 0
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.min_time==false" style="margin-top: 4px"></div>
-						<div v-else style="margin-top: 20px"></div>
+						<div v-if="inputState.min_time==false" style="margin-top: 15px"></div>
+						<div v-else style="margin-top: 31px"></div>
 						<b-form-group label="Max Time (s)" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
@@ -50,8 +50,8 @@
 								Not a number greater than min time
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.max_time==false" style="margin-top: 4px"></div>
-						<div v-else style="margin-top: 20px"></div>
+						<div v-if="inputState.max_time==false" style="margin-top: 15px"></div>
+						<div v-else style="margin-top: 31px"></div>
 					</div>
 					<div v-if="inputState.name==false || inputState.min_time==false || inputState.max_time==false">
 						<b-button
@@ -72,9 +72,9 @@
 			</div>
 			<div v-else-if="addStopPage === 1">
 					<b-form @submit.prevent="goToNextPage">
-						<div style="margin-top: 15px">
+						<div style="margin-top: 25px">
 							<p>Input Top Left Point</p>
-							<b-form-group label="Latitude" label-cols="4" style="margin: 37px 0 0">
+							<b-form-group label="Latitude" label-cols="4" style="margin: 47px 0 0">
 								<b-form-input 
 									required 
 									class="form-control-sm" 
@@ -87,8 +87,8 @@
 									Not a number
 								</b-form-invalid-feedback>
 							</b-form-group>
-							<div v-if="inputState.lat1==false" style="margin-bottom: 4px"></div>
-							<div v-else style="margin-bottom: 20px"></div>
+							<div v-if="inputState.lat1==false" style="margin-bottom: 16px"></div>
+							<div v-else style="margin-bottom: 32px"></div>
 							<b-form-group label="Longitude" label-cols="4" style="margin-bottom: 0px">
 								<b-form-input 
 									required 
@@ -102,8 +102,8 @@
 									Not a number
 								</b-form-invalid-feedback>
 							</b-form-group>
-							<div v-if="inputState.long1==false" style="margin-top: 17px"></div>
-							<div v-else style="margin-top: 33px"></div>
+							<div v-if="inputState.long1==false" style="margin-top: 29px"></div>
+							<div v-else style="margin-top: 45px"></div>
 						</div>
 						<div v-if="inputState.lat1==false || inputState.long1==false">
 							<b-button
@@ -124,9 +124,9 @@
 			</div>
 			<div v-else-if="addStopPage === 2">
 				<b-form @submit.prevent="addPoints">
-					<div style="margin-top: 15px">
+					<div style="margin-top: 25px">
 						<p>Input Bottom Right Point</p>
-						<b-form-group label="Latitude" label-cols="4" style="margin: 37px 0 0">
+						<b-form-group label="Latitude" label-cols="4" style="margin: 47px 0 0">
 							<b-form-input 
 								required 
 								class="form-control-sm" 
@@ -139,8 +139,8 @@
 								Not a number
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.lat1==false" style="margin-bottom: 4px"></div>
-						<div v-else style="margin-bottom: 20px"></div>
+						<div v-if="inputState.lat1==false" style="margin-bottom: 16px"></div>
+						<div v-else style="margin-bottom: 32px"></div>
 						<b-form-group label="Longitude" label-cols="4" style="margin-bottom: 0px">
 							<b-form-input 
 								required 
@@ -154,8 +154,8 @@
 								Not a number
 							</b-form-invalid-feedback>
 						</b-form-group>
-						<div v-if="inputState.long1==false" style="margin-top: 17px"></div>
-						<div v-else style="margin-top: 33px"></div>
+						<div v-if="inputState.long1==false" style="margin-top: 29px"></div>
+						<div v-else style="margin-top: 45px"></div>
 					</div>
 					<div v-if="inputState.lat2==false || inputState.long2==false">
 						<b-button
@@ -175,7 +175,7 @@
 				</b-form>
 			</div>
 			<div v-else-if="addStopPage === 3">
-				<div style="height: 205px">
+				<div style="height: 249px">
 					<b-alert 
 						:show="3"
 						:variant="alert.variant"
@@ -188,16 +188,16 @@
 					</div>
 					<b-row>
 						<b-col cols="5" style="padding-right: 0">
-							<h5>Name:</h5>
-							<h5>Min Time:</h5>
-							<h5>Max Time:</h5>
-							<h5>Stops:</h5>
+							<h5 style="padding: 8px 0px">Name:</h5>
+							<h5 style="padding: 8px 0px">Min Time:</h5>
+							<h5 style="padding: 8px 0px">Max Time:</h5>
+							<h5 style="padding: 8px 0px">Stops:</h5>
 						</b-col>
 						<b-col cols="7" style="padding-left: 0">
-							<h5>{{ name }}</h5>
-							<h5>{{ min_time }}s</h5>
-							<h5>{{ max_time }}s</h5>
-							<h5>{{ stop.length }}</h5>
+							<h5 style="padding: 8px 0px">{{ name }}</h5>
+							<h5 style="padding: 8px 0px">{{ min_time }}s</h5>
+							<h5 style="padding: 8px 0px">{{ max_time }}s</h5>
+							<h5 style="padding: 8px 0px">{{ stop.length }}</h5>
 						</b-col>
 					</b-row>
 				</div>

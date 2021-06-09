@@ -5,7 +5,7 @@
 				<h3>Route Trajectory Uploader</h3>
 			</template>
 			<b-form @submit.prevent="uploadRoute">
-				<div style="margin-top: 14px">
+				<div style="margin-top: 24px">
 					<b-form-group label="Input Route Name" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
@@ -19,8 +19,8 @@
 							Name already taken
 					</b-form-invalid-feedback>
 					</b-form-group>
-					<div v-if="inputState.name==false" style="margin-top: 4px"></div>
-					<div v-else style="margin-top: 27px"></div>
+					<div v-if="inputState.name==false" style="margin-top: 16px"></div>
+					<div v-else style="margin-top: 39px"></div>
 					<b-form-group label="Cell Size (km)" label-cols="5" style="margin-bottom: 0px">
 						<b-form-input 
 							required 
@@ -34,14 +34,14 @@
 							Not a number greater than 0
 						</b-form-invalid-feedback>
 					</b-form-group>
-					<div v-if="inputState.cell_size==false" style="margin-top: 4px"></div>
-					<div v-else style="margin-top: 20px"></div>
+					<div v-if="inputState.cell_size==false" style="margin-top: 16px"></div>
+					<div v-else style="margin-top: 32px"></div>
 				</div>
 				<b-form-file 
 					plain
 					required
 					v-model="gpx_file"
-					style="margin-bottom: 14px" 
+					style="margin-bottom: 24px" 
 				></b-form-file>
 				<div v-if="inputState.name==false || inputState.cell_size==false">
 					<b-button disabled type="submit" variant="outline-primary" style="float: right">Upload</b-button>
