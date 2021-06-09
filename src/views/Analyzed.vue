@@ -5,10 +5,10 @@
 				<b-row>
 					<b-col cols="12">
 						<Info
-							:id="id"
-							:name="name"
-							:date_uploaded="date_uploaded"
-							:filename="filename"
+							:name="info.name"
+							:date_uploaded="info.date_uploaded"
+							:route_name="info.route_name"
+							:stops_name="info.stops_name"
 						/>
 					</b-col>
 					<b-col style="padding-top: 30px">
@@ -61,7 +61,7 @@ import Map from "@/components/Map";
 
 export default {
 	name: "Analyzed",
-	props: ["id", "name", "date_uploaded", "filename"],
+	props: ["id"],
 	components: {
 		Distance,
 		Liveness,
@@ -73,6 +73,12 @@ export default {
 	},
 	data() {
 		return {
+			info: {
+				name: null,
+				date_uploaded: null,
+				route_name: null,
+				stops_name: null,
+			},
 			map: {
 				geojson: null,
 				speeding: null,
@@ -91,6 +97,10 @@ export default {
 	created() {
 		fetchTrajectory(this.id)
 			.then(res => {
+				this.info.name = res.data.name;
+				this.info.date_uploaded = res.data.date_uploaded;
+				this.info.route_name = res.data.route_name;
+				this.info.stops_name = res.data.stops_name;
 				this.map.geojson = res.data.geojson;
 			})
 			.catch(err => console.log(err));
