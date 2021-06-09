@@ -20,6 +20,9 @@
 						<template #cell(number)="row">
 							{{ row.index + 1}}
 						</template>
+						<template #cell(duration)="row">
+							{{ row.item.duration }}s
+						</template>
 					</b-table>
 				</div>
 				<div v-else>
@@ -47,7 +50,7 @@ export default {
 			},
 			violation: {
 				violations: null,
-				fields: ["number", {key: "violation", label: "type"}, "duration", {key: "time1", label: "Start"}, {key: "time2", label: "End"}]
+				fields: ["number", {key: "violation", label: "Type"}, "duration", {key: "time1", label: "Start"}, {key: "time2", label: "End"}]
 			},
 		}
 	},
