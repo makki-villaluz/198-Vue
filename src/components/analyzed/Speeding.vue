@@ -65,7 +65,7 @@
 				<div v-if="violations.length">
 					<h4 style="text-align: center">{{ violations.length }} Speeding Violations ({{ speed_limit }}km/h, {{ time_limit }}m, {{ speed_type }})</h4>
 					<b-table
-						outlined fixed hover small
+						outlined hover small
 						sticky-header="190px"
 						head-variant="light"
 						:fields="fields"
