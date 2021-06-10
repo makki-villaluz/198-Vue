@@ -3,7 +3,7 @@
 		<b-card bg-variant="light">
 			<div 
 				class="d-flex justify-content-center" 
-				style="height: 62px; align-items: center" 
+				style="align-items: center; height: 86px" 
 				v-if="distance === null"
 			>
 				<b-spinner label="spinning"></b-spinner>
