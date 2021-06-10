@@ -1,10 +1,15 @@
 <template>
 	<div>
 		<b-card bg-variant="light">
+			<div v-if="route_id === 'null'">
+				<div class="center" style="height: 86px">
+					<h4>No Route File</h4>
+				</div>
+			</div>
 			<div 
 				class="d-flex justify-content-center" 
 				style="align-items: center; height: 86px" 
-				v-if="loops === null"
+				v-else-if="loops === null"
 			>
 				<b-spinner label="spinning"></b-spinner>
 			</div>
@@ -42,3 +47,11 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
