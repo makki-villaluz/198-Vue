@@ -1,7 +1,12 @@
 <template>
 	<div>
 		<b-card bg-variant="light" style="height: 300px">
-			<div v-if="violation.violations === null">
+			<div v-if="stops_id === 'null'">
+				<div class="center" style="height: 258px">
+					<h4>No Stops File</h4>
+				</div>
+			</div>
+			<div v-else-if="violation.violations === null">
 				<div class="center" style="height: 258px">
 					<b-spinner label="spinning"></b-spinner>				
 				</div>
