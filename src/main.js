@@ -1,9 +1,10 @@
+import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 
 import './plugins/bootstrap-vue';
-import { BootstrapVue, BIconCircle, BIconCircleFill, BIconTrash, BIconPencilSquare, BIconClipboardData} from 'bootstrap-vue'
+import { BootstrapVue, BIconCircle, BIconCircleFill, BIconPencilSquare, BIconUpload, BIconPlus, BIconCheck2, BIconX} from 'bootstrap-vue'
 
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
@@ -18,11 +19,14 @@ Icon.Default.mergeOptions({
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);
+Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)
 Vue.component('BIconCircle', BIconCircle)
 Vue.component('BIconCircleFill', BIconCircleFill)
-Vue.component('BIconTrash', BIconTrash)
 Vue.component('BIconPencilSquare', BIconPencilSquare)
-Vue.component('BIconClipboardData', BIconClipboardData)
+Vue.component('BIconUpload', BIconUpload)
+Vue.component('BIconPlus', BIconPlus)
+Vue.component('BIconCheck2', BIconCheck2)
+Vue.component('BIconX', BIconX)
 
 new Vue({
   router,

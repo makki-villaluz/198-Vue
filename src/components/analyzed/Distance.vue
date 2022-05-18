@@ -23,16 +23,20 @@ import { fetchDistance } from "@/api/index.js";
 
 export default {
 	name: "Distance",
-	props: ["id"],
+	props: ["analysis_id"],
 	data() {
 		return {
 			distance: null,
 		}
 	},
-  created() {
-    fetchDistance(this.id)
-			.then(res => this.distance = res.data.distance)
-      .catch(err => console.log(err));
+  watch: {
+		"analysis_id" (analysis_id) {
+			if (analysis_id !== 'null') {
+				fetchDistance(analysis_id)
+					.then(res => this.distance = res.data.distance)
+					.catch(err => console.log(err));
+			}
+		}
   },
 }
 </script>

@@ -1,139 +1,330 @@
 <template>
-  <div class="route container-xl">
-    <b-alert 
-      style="margin: 30px 0 0"
-      :variant="alert.variant"
-      :show="alert.duration"
-      @dismissed="resetAlert"
-    >{{ alert.message }}</b-alert>
-    <b-row style="margin-top: 30px">
-      <b-col>
-        <UploadCardRoutes 
-          :routes="routes"
-          v-on:upload-route="uploadRoute"
-        />
-      </b-col>
-      <b-col cols="8">
-        <Map
-          :geojson="map.geojson"
-        />
-      </b-col>
-    </b-row>
-    <div style="margin-top: 30px">
-      <FileTableRoutes
-        :routes="routes"
-        v-on:row-selected="rowSelected"
-        v-on:edit-route="editRoute"
-        v-on:delete-route="deleteRoute"
-      />
-    </div>
-  </div>
+	<b-container fluid>
+		<b-row style="margin: 32px 0;">
+			<b-col cols="7">
+				<b-card style="height: 784px">
+					<template #header>
+						<h3>Routes</h3>
+						<b-button variant="outline-info" size="sm" style="float: right">Refresh</b-button>
+					</template>
+					<div style="margin: 12px 0 0">
+						<b-form inline>
+							<label for="name-form" style="padding-right: 15px">Name</label>
+							<vue-bootstrap-typeahead 
+								ref="routeSearchInput"
+								v-model="search.route.data"
+								:data="search.route.options"
+								size="sm"
+								:minMatchingChars="search.minMatchingChar"
+								@input="routeAutoComplete()"
+							/>
+						</b-form>
+						<div style="margin: 15px 0 0">
+							<b-button 
+								size="sm"
+								variant="outline-primary" 
+								@click="searchRoute()"
+							>Search</b-button>
+							<b-button 
+								size="sm"
+								variant="outline-warning" 
+								style="margin-left: 15px"
+								@click="clearSearch()"
+							>Clear</b-button>
+						</div>
+					</div>
+					<div style="margin: 15px 0 0">
+						<b-table
+							hover
+							sort-icon-left							
+							:fields="table.fields"
+							:items="table.routes"
+							@row-hovered="rowHovered"
+							@row-unhovered="rowUnhovered"
+						>
+							<template #cell(route_name)="row">
+								<div class="data-row">{{ row.item.route_name }}</div>
+							</template>
+							<template #cell(date_uploaded)="row">
+								<div v-if="row.item.date_uploaded !== 'null'">
+									<div class="data-row">{{ row.item.date_uploaded }}</div>
+								</div>
+								<div v-else>
+									<div class="data-row">-</div>
+								</div>
+							</template>
+							<template #cell(complete_files)="row">
+								<div v-if="row.item.ref_filename !== 'null' && row.item.stop_filename !== 'null'">
+									<b-icon-check2 variant="success" font-scale="2"></b-icon-check2>
+								</div>
+								<div v-else>
+									<b-icon-x variant="danger" font-scale="2"></b-icon-x>
+								</div>
+							</template>
+							<template #cell(actions)="row">
+								<div style="float: right">
+									<b-button
+										style="padding: 2px 12px 6px" 
+										variant="outline-primary"
+										v-b-modal="'upload-modal'"
+										@click="modalInfo(row.item.id, row.item.route_name)"
+									>
+										<b-icon-upload font-scale="0.80"></b-icon-upload>
+									</b-button>
+								</div>
+							</template>
+						</b-table>
+						<div v-if="table.routes.length === 0" style="margin: 32px 0 0">
+							<p>No Routes Found</p>
+						</div>
+						<div style="width: 100%; display: flex; justify-content: center">
+							<b-pagination
+								v-model="pagination.currentPage"
+								align="center"
+								:total-rows="pagination.totalRows"
+								:per-page="pagination.perPage"
+								@page-click="newPage"
+							></b-pagination>
+						</div>
+					</div>
+				</b-card>
+
+				<b-modal hide-footer centered id="upload-modal" @hidden="resetModal">
+					<template #modal-title>
+						<h2>{{ modal.route_name }} Files</h2>
+					</template>
+					<b-form>
+						<div style="margin: 14px 0 30px">
+							<b-form-group label="Reference File" label-cols="4">
+								<b-form-file 
+									id="reference-file"
+									accept=".gpx"
+									v-model="modal.ref_file" 
+									size="sm" 
+									style="width: 100%"
+								></b-form-file>						
+							</b-form-group>
+						</div>
+						<div style="margin: 30px 0">
+							<b-form-group label="Stop File" label-cols="4">
+								<b-form-file 
+									id="stop-file" 
+									accept=".csv"
+									v-model="modal.stop_file"
+									size="sm" 
+									style="width: 100%"
+								></b-form-file>
+							</b-form-group>
+						</div>
+						<b-button 
+							variant="outline-primary" 
+							size="sm" 
+							style="float: right"
+							@click="uploadRouteFiles()"
+						>Upload</b-button>
+					</b-form>
+				</b-modal>
+			</b-col>
+			<b-col>
+				<Map
+					:geojson="map.geojson"
+					:polygon="map.polygon"
+				/>
+			</b-col>
+		</b-row>
+	</b-container>
 </template>
 
 <script>
-import { fetchRoute, postRoute, updateRoute, removeRoute, fetchRoutes } from "@/api/index.js";
-import FileTableRoutes from "@/components/routes/FileTableRoutes";
-import UploadCardRoutes from "@/components/routes/UploadCardRoutes";
+import { fetchRoute, fetchRoutes, fetchRouteDatalist, fetchRoutesSearch, updateRouteFiles } from "@/api/index.js"
 import Map from "@/components/Map";
 
 export default {
-  name: "Routes",
-  components: {
-    FileTableRoutes,
-    UploadCardRoutes,
-    Map,
-  },
-  data() {
-    return {
-      map: {
-        geojson: null,
-      },
-      alert: {
-        message: "",
-        variant: "",
-        duration: 0,
-      },
-      routes: [],
-    }
-  },
-  methods: {
-    rowSelected(selected) {
-      if (selected.length) {
-        fetchRoute(selected[0].id)
-          .then(res => {
-            this.map.geojson = res.data.geojson;
-          })
-          .catch(err => console.log(err));
-      }
-      else {
-        this.map.geojson = null;
-      }
-    },
-    uploadRoute(name, cell_size, gpx_file) {
-      const formData = new FormData();
+	name: "Routes",
+	components: {
+		Map,
+	},
+	data() {
+		return {
+			table: {
+				fields: [
+					{key: "route_name", sortable: true, label: "Name"}, 
+					{key: "complete_files", sortable: true}, 
+					{key: "date_uploaded", sortable: true, label: "Date"}, 
+					{key: "actions", label: ""}
+				],
+				routes: [],
+				hoveredRow: 0,
+				delay: 250
+			},
+			pagination: {
+				currentPage: 1,
+				totalRows: 0,
+				perPage: 0
+			},
+			modal: {
+				route_name: "",
+				id: null,
+				ref_file: null,
+				stop_file: null
+			},
+			map: {
+				geojson: null,
+				polygon: null,
+			},
+			search: {
+				route: {
+					data: "",
+					options: []
+				},
+				minMatchingChar: 1
+			},
+		}
+	},
+	methods: {
+		modalInfo(id, route_name) {
+			this.modal.id = id;
+			this.modal.route_name = route_name;
+		},
+		resetModal() {
+			this.modal.id = null;
+			this.modal.route_name = "";
+		},
+		rowHovered(row) {
+			if (row.ref_filename !== 'null' && row.stop_filename !== 'null') {
+				this.table.hoveredRow = row.id;
+				this.delay(this.table.delay)
+					.then(() => {
+						if (this.table.hoveredRow === row.id) {
+							fetchRoute(row.id)
+								.then(res =>  {
+									this.map.geojson = res.data.geojson;
+									this.map.polygon = this.definePolygon(res.data.polygon.coordinates);
+								})
+								.catch(err => console.log(err))
+						}
+					})
+			}
+		},
+		rowUnhovered() {
+			this.map.geojson = null;
+			this.map.polygon = null;
+			this.table.hoveredRow = 0;
+		},
+		newPage(data) {
+			let page = data.target.innerHTML;
 
-      formData.append("name", name);
-      formData.append("cell_size", cell_size);
-      formData.append("gpx_file", gpx_file);
+			if (page === "«") {
+				page = 1;
+			}
+			else if (page === "‹") {
+				page = this.pagination.currentPage - 1;
+			}
+			else if (page === "›") {
+				page = this.pagination.currentPage + 1;
+			}
+			else if (page === "»") {
+				page = Math.ceil(this.pagination.totalRows / this.pagination.perPage);
+			}
 
-      postRoute(formData)
-        .then(res => {
-					this.routes = [...this.routes, res.data];
-          this.alert.message = "File successfully uploaded"
-          this.alert.variant = "success"
-          this.alert.duration = 3;
-        })
-        .catch(() => {
-          this.alert.message = "File upload error occurred"
-          this.alert.variant = "danger"
-          this.alert.duration = 3;
-        });
-    },
-    editRoute(id, name, cell_size) {
-      const formData = new FormData();
-
-      formData.append("name", name);
-      formData.append("cell_size", cell_size);
-
-      updateRoute(id, formData)
-        .then(res => {
-          const index = this.routes.findIndex(route => route.id == res.data.id);
-          this.routes[index].name = res.data.name;
-          this.routes[index].cell_size = res.data.cell_size;
-          this.alert.message = "File successfully edited";
-          this.alert.variant = "success";
-          this.alert.duration = 3;
-        })
-        .catch(() => {
-          this.alert.message = "File edit error occurred";
-          this.alert.variant = "danger";
-          this.alert.duration = 3;
-        });
-    },
-    deleteRoute(id) {
-      removeRoute(id)
-        .then(res => {
-					this.routes = this.routes.filter(route => route.id !== res.data.id);
-          this.alert.message = "File successfully deleted";
-          this.alert.variant = "success";
-          this.alert.duration = 3;
+			fetchRoutes(page)
+				.then(res => {
+					this.table.routes = res.data.routes;
+					this.pagination.currentPage = res.data.curr_page;
+					this.pagination.totalRows = res.data.total_rows;
+					this.pagination.perPage = res.data.per_page;
 				})
-				.catch(() => {
-          this.alert.message = "File delete error occurred";
-          this.alert.variant = "danger";
-          this.alert.duration = 3;
-        });
-    },
-    resetAlert() {
-      this.alert.message = "";
-      this.alert.variant = "";
-      this.alert.duration = 0;
-    },
-  },
-  created() {
-    fetchRoutes()
-      .then(res => this.routes = res.data)
-      .catch(err => console.log(err));
-  }
+				.catch(err => console.log(err))
+		},
+		editRouteFiles() {
+			const formData = new FormData();
+
+			formData.append("ref_file", this.modal.ref_file);
+			formData.append("stop_file", this.modal.stop_file);
+
+			updateRouteFiles(this.modal.id, formData)
+				.then(res => {
+					const index = this.table.routes.findIndex(route => route.id == res.data.id);
+					this.table.routes[index].ref_filename = res.data.ref_filename;
+					this.table.routes[index].stop_filename = res.data.stop_filename;
+					this.table.routes[index].date_uploaded = res.data.date_uploaded;
+				})
+				.catch(err => console.log(err))
+		},
+		searchRoute() {
+			const json = {
+				route: this.search.route.data
+			}
+			fetchRoutesSearch(json, 1)
+				.then(res => {
+					this.table.routes = res.data.routes;
+					this.pagination.currentPage = res.data.curr_page;
+					this.pagination.totalRows = res.data.total_rows;
+					this.pagination.perPage = res.data.per_page;
+				})
+				.catch(err => console.log(err))
+
+		},
+		clearSearch() {
+			this.search.route.data = "";
+			this.$refs.routeSearchInput.inputValue = "";
+
+			fetchRoutes(1)
+				.then(res => {
+					this.table.routes = res.data.routes;
+					this.pagination.totalRows = res.data.totalRows;
+					this.pagination.perPage = res.data.per_page;
+				})
+				.catch(err => console.log(err));
+		},
+		routeAutoComplete() {
+			const json = {
+				route: this.search.route.data
+			}
+			console.log(this.search.route.data)
+			fetchRouteDatalist(json)
+				.then(res => {
+					this.search.route.options = res.data.routes;
+				})
+				.catch(err => console.log(err));
+		},
+		delay(time) {
+			return new Promise(resolve => setTimeout(resolve, time));
+		},
+		definePolygon(geojson) {
+			const latlng = geojson.map(x => [x[1], x[0]]);
+
+			var result = [];
+			for (var i = 0; i < latlng.length; i += 2) {
+				const upperLeft = latlng[i];
+				const upperRight = [latlng[i][0], latlng[i+1][1]];
+				const lowerRight = latlng[i+1];
+				const lowerLeft = [latlng[i+1][0], latlng[i][1]];
+
+				result.push([upperLeft, upperRight, lowerRight, lowerLeft]);
+			}
+
+			return result;
+		},
+	},
+	created() {
+		fetchRoutes(1)
+			.then(res => {
+				this.table.routes = res.data.routes;
+				this.pagination.totalRows = res.data.total_rows;
+				this.pagination.perPage = res.data.per_page;
+			})
+			.catch(err => console.log(err))
+	}
 }
 </script>
+
+<style scoped>
+	h3 {
+		display: inline-block;
+		margin: 0;
+	}
+	.data-row {
+		padding-top: 5px
+	}
+</style>

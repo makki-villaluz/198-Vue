@@ -1,15 +1,10 @@
 <template>
 	<div>
 		<b-card bg-variant="light">
-			<div v-if="route_id === 'null'">
-				<div class="center" style="height: 86px">
-					<h4>No Route File</h4>
-				</div>
-			</div>
 			<div 
 				class="d-flex justify-content-center" 
 				style="align-items: center; height: 86px" 
-				v-else-if="loops === null"
+				v-if="loops === null"
 			>
 				<b-spinner label="spinning"></b-spinner>
 			</div>
@@ -32,17 +27,19 @@ import { fetchLoops } from "@/api/index.js";
 
 export default {
 	name: "Loop",
-	props: ["id", "route_id"],
+	props: ["analysis_id"],
 	data() {
 		return {
 			loops: null,
 		}
 	},
 	watch: {
-		"route_id" (route_id) {
-			fetchLoops(this.id, route_id)
-				.then(res => this.loops = res.data.loops)
-				.catch(err => console.log(err));
+		"analysis_id" (analysis_id) {
+			if (analysis_id !== 'null') {
+				fetchLoops(analysis_id)
+					.then(res => this.loops = res.data.loops)
+					.catch(err => console.log(err));
+			}
 		}
 	},
 }

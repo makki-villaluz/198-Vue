@@ -1,24 +1,24 @@
 <template>
-	<div class="container-xl" style="padding-top: 30px">
+	<div class="container-xl" style="padding-top:30px">
 		<b-row>
 			<b-col cols="5">
 				<b-row>
 					<b-col cols="12">
 						<Info
-							:name="info.name"
-							:date_uploaded="info.date_uploaded"
+							:vehicle_id="info.vehicle_id"
 							:route_name="info.route_name"
-							:stops_name="info.stops_name"
+							:date_uploaded="info.date_uploaded"
 						/>
 					</b-col>
 					<b-col style="padding-top: 30px">
-						<Distance :id="id"/>
+						<Distance
+							:analysis_id="analysis_id"
+						/>
 					</b-col>
 					<b-col style="padding-top: 30px">
-						<Loop 
-							:id="id"
-							:route_id="loop.route_id"
-						/> 
+						<Loop
+							:analysis_id="analysis_id"
+						/>
 					</b-col>
 				</b-row>
 			</b-col>
@@ -32,32 +32,33 @@
 		</b-row>
 		<b-row style="padding-top: 30px">
 			<b-col cols="6">
-				<Speeding 
-					:id="id"
+				<Speeding
+					:analysis_id="analysis_id"
 					v-on:update-speeding-violations="updateSpeedingViolations"
 				/>
 			</b-col>
 			<b-col cols="6">
-				<Stop 
-					:id="id"
-					:stops_id="stop.stops_id"
+				<Stop
+					:analysis_id="analysis_id"
 					v-on:update-stop-violations="updateStopViolations"
 				/>
 			</b-col>
 		</b-row>
 		<b-row style="padding: 30px 0 60px">
-			<b-col cols="12">
-				<Liveness :id="id"/>
+			<b-col>
+				<Liveness
+					:analysis_id="analysis_id"
+				/>
 			</b-col>
 		</b-row>
 	</div>
 </template>
 
 <script>
-import { fetchTrajectory } from "@/api/index.js";
+import { fetchVehicle, fetchRoute } from "@/api/index.js"
 import Distance from "@/components/analyzed/Distance";
-import Liveness from "@/components/analyzed/Liveness";
 import Speeding from "@/components/analyzed/Speeding";
+import Liveness from "@/components/analyzed/Liveness";
 import Stop from "@/components/analyzed/Stop";
 import Loop from "@/components/analyzed/Loop";
 import Info from "@/components/analyzed/Info";
@@ -68,8 +69,8 @@ export default {
 	props: ["id"],
 	components: {
 		Distance,
-		Liveness,
 		Speeding,
+		Liveness,
 		Stop,
 		Loop,
 		Info,
@@ -78,44 +79,49 @@ export default {
 	data() {
 		return {
 			info: {
-				name: null,
-				date_uploaded: null,
+				vehicle_id: null,
 				route_name: null,
-				stops_name: null,
-			},
-			loop: {
-				route_id: null
-			},
-			stop: {
-				stops_id: null
+				date_uploaded: null
 			},
 			map: {
 				geojson: null,
 				speeding: null,
-				stop: null,
+				stop: null
 			},
+			route_id: null,
+			analysis_id: null,
 		}
 	},
 	methods: {
-		updateSpeedingViolations(violations){
+		updateSpeedingViolations(violations) {
 			this.map.speeding = violations;
 		},
-		updateStopViolations(violations){
+		updateStopViolations(violations) {
 			this.map.stop = violations;
 		}
 	},
 	created() {
-		fetchTrajectory(this.id)
+		fetchVehicle(this.id) 
 			.then(res => {
-				this.info.name = res.data.name;
+				this.info.vehicle_id = res.data.vehicle_id;
 				this.info.date_uploaded = res.data.date_uploaded;
-				this.info.route_name = res.data.route_name;
-				this.info.stops_name = res.data.stops_name;
+				this.route_id = res.data.route_id;
+				this.analysis_id = res.data.analysis_id;
 				this.map.geojson = res.data.geojson;
-				this.loop.route_id = res.data.route_id;
-				this.stop.stops_id = res.data.stops_id;
+
+				if (this.analysis_id === 'null') {
+					this.$bvToast.toast('This vehicle has not yet been analyzed', 
+						{title: "Error", variant: 'danger', solid: true}
+					)
+				}
+
+				fetchRoute(this.route_id)
+					.then(res => {
+						this.info.route_name = res.data.name;
+					})
+					.catch(err => console.log(err))
 			})
-			.catch(err => console.log(err));
-	},
+			.catch(err => console.log(err))
+	}
 }
 </script>

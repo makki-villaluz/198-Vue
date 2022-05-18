@@ -1,25 +1,20 @@
 <template>
 	<div>
 		<b-card bg-variant="light" style="height: 300px">
-			<div v-if="stops_id === 'null'">
-				<div class="center" style="height: 258px">
-					<h4>No Stops File</h4>
-				</div>
-			</div>
-			<div v-else-if="violation.violations === null">
+			<div v-if="violations === null">
 				<div class="center" style="height: 258px">
 					<b-spinner label="spinning"></b-spinner>				
 				</div>
 			</div>
 			<div v-else>
-				<div v-if="violation.violations.length">
-					<h4 style="text-align: center">{{ violation.violations.length }} Stop Violations</h4>
+				<div v-if="violations.length">
+					<h4 style="text-align: center">{{ violations.length }} Stop Violations ({{ min_time }}s - {{ max_time }}s)</h4>
 					<b-table
 						outlined hover small
 						sticky-header="208px"
 						head-variant="light"
-						:fields="violation.fields"
-						:items="violation.violations"
+						:fields="fields"
+						:items="violations"
 						style="marign-bottom: 0px"
 					>
 						<template #cell(number)="row">
@@ -32,7 +27,7 @@
 				</div>
 				<div v-else>
 					<div class="center" style="height: 258px">
-						<h4 style="text-align: center">{{ violation.violations.length }} Stop Violations</h4>
+						<h4 style="text-align: center">{{ violations.length }} Stop Violations</h4>
 					</div>
 				</div>
 			</div>
@@ -45,29 +40,27 @@ import { fetchStopViolations } from "@/api/index.js";
 
 export default {
 	name: "Stop",
-	props: ["id", "stops_id"],
+	props: ["analysis_id"],
 	data() {
 		return {
-			stop: {
-				stops: [],
-				fields: ["name", "min_time", "max_time"],
-				selected: [],
-			},
-			violation: {
-				violations: null,
-				fields: ["number", {key: "violation", label: "Type"}, "duration", {key: "time1", label: "Start"}, {key: "time2", label: "End"}]
-			},
+			fields: ["number", {key: "violation", label: "Type"}, "duration", {key: "time1", label: "Start"}, {key: "time2", label: "End"}],
+			violations: null,
+			min_time: null,
+			max_time: null
 		}
 	},
 	watch: {
-		"stops_id" (stops_id) {
-			fetchStopViolations(this.id, stops_id)
-				.then(res => {
-					this.violation.violations = res.data;
-					this.$emit("update-stop-violations", this.violation.violations);
-				})
-				.catch(err => console.log(err))
-		
+		"analysis_id" (analysis_id) {
+			if (analysis_id !== 'null') {
+				fetchStopViolations(analysis_id)
+					.then(res => {
+						this.min_time = res.data.min_time;
+						this.max_time = res.data.max_time;
+						this.violations = res.data.violations;
+						this.$emit("update-stop-violations", this.violations);
+					})
+					.catch(err => console.log(err))
+			}
 		}
 	}
 }

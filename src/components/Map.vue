@@ -44,7 +44,7 @@ export default {
 	},
 	data() {
 		return {
-			url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+			url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 			options: {
 				style: function () {
@@ -116,7 +116,6 @@ export default {
 			for (var i = 1; i < length; i++) {
 				var match = false;
 				for (var j = 0; j < unique_stops.length; j++) {
-					console.log(stop[i].x)
 					if (stop[i].center_lat === unique_stops[j].x && stop[i].center_long === unique_stops[j].y) {
 						unique_stops[j].violations = unique_stops[j].violations.concat(", ".concat(i+1));
 						match = true;

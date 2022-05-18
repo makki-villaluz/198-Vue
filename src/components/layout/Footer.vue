@@ -1,6 +1,6 @@
 <template>
 	<footer class="footer">
-		<div>"Icon made by Freepik from www.flaticon.com"</div>
+		<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 	</footer>
 </template>
 
@@ -22,5 +22,17 @@ export default {
 		color: white;
 		background-color:#343a40;
 		padding: 10px 0 10px;
+	}
+	a:link {
+		color: white;
+	}
+	a:visited {
+		color: white;
+	}
+	a:hover {
+		color: white;
+	}
+	a:active {
+		color: white;
 	}
 </style>
