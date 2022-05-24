@@ -2,7 +2,7 @@
   <div class="home">
     <b-jumbotron>
       <b-container style="height: 180px">
-          <img src="/static/favicon.png" height="180">
+          <img src="/static/favicon.png" height="180" style="padding-right: 10px; float: left">
           <!-- <img src="../../public/favicon.png" height="180" style="padding-right: 10px; float: left"> -->
           <div style="display: inline">
             <h1 class="display-3" style="padding-top: 30px">JeePS</h1>
@@ -21,7 +21,7 @@
             <b-col style="padding: 20px 0">
               <div style="margin: auto; width: 180px">
                 <b-button variant="outline-dark" to="/vehicles" style="width: 180px;">
-                  <img src="/static/trajectories.png" height="150">
+                  <img src="/static/vehicles.png" height="150">
                   <!-- <img src="../../public/vehicles.png" height="150"> -->
                   <h3>Vehicles</h3>
                   <div>View and Analyze Vehicles</div>
@@ -41,7 +41,7 @@
             <b-col style="padding: 20px 0">
               <div style="margin: auto; width: 180px">
                 <b-button variant="outline-dark" to="/parameters" style="width: 180px;">
-                  <img src="/static/trajectories.png" height="150">
+                  <img src="/static/parameters.png" height="150">
                   <!-- <img style="margin: 10px 0" src="../../public/parameters.png" height="130"> -->
                   <h3>Parameters</h3>
                   <div>Edit Analysis Parameters</div>
@@ -51,7 +51,7 @@
             <b-col style="padding: 20px 0">
               <div style="margin: auto; width: 180px">
                 <b-button variant="outline-dark" to="/admin" style="width: 180px;">
-                  <img src="/static/trajectories.png" height="150">
+                  <img src="/static/admin.png" height="150">
                   <!-- <img src="../../public/admin.png" height="150"> -->
                   <h3>Admin</h3>
                   <div>Manage Accounts and Settings</div>
