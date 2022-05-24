@@ -41,7 +41,7 @@
             <b-col style="padding: 20px 0">
               <div style="margin: auto; width: 180px">
                 <b-button variant="outline-dark" to="/parameters" style="width: 180px;">
-                  <img src="/static/parameters.png" height="150">
+                  <img style="margin: 10px 0" src="/static/parameters.png" height="130">
                   <!-- <img style="margin: 10px 0" src="../../public/parameters.png" height="130"> -->
                   <h3>Parameters</h3>
                   <div>Edit Analysis Parameters</div>
