@@ -103,6 +103,18 @@ export function fetchLiveness(id) {
 	return axios.get(`${API_URL}/vehicle/analyze/liveness/${id.toString()}`);
 }
 
+export function fetchCutOffTime() {
+	return axios.get(`${API_URL}/admin/cutofftime}`);
+}
+
+export function updateCutOffTime(json) {
+	return axios.put(`${API_URL}/admin/cutofftime`, json, {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+}
+
 export function fetchNorthboundAccessToken() {
 	return axios.get(`${API_URL}/northbound/token`);
 }

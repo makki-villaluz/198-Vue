@@ -73,7 +73,6 @@
 						</template>
 						<div class="form-spacer">
 							<b-form-timepicker 
-								show-seconds
 								:disabled=true
 								v-model="gps_cut_off_time.old"
 							></b-form-timepicker>
@@ -136,20 +135,22 @@
 			<template #modal-title>
 				<h3>New Cut Off Time</h3>
 			</template>
-			<b-form @submit.prevent="updateCutOffTime">
+			<b-form>
 				<div class="form-spacer">
 					<b-form-timepicker
 						show-seconds
 						v-model="gps_cut_off_time.new"
 					></b-form-timepicker>
 				</div>
-				<b-button type="submit" variant="outline-primary" size="sm" style="float: right">Save</b-button>
+				<b-button 
 			</b-form>
 		</b-modal>
 	</b-container>
 </template>
 
 <script>
+import { fetchCutOffTime, updateCutOffTime } from "@/api/index.js";
+
 export default {
 	name: "Admin",
 	data() {
@@ -159,7 +160,7 @@ export default {
 				new: "",
 			},
 			gps_cut_off_time: {
-				old: "23:59:59",
+				old: "",
 				new: "",
 			},
 			accounts_table: {
@@ -197,11 +198,25 @@ export default {
 		modalCutOffTimeInfo() {
 			this.gps_cut_off_time.new = this.gps_cut_off_time.old;
 		},
-		updateCutOffTime() {
-			this.gps_cut_off_time.old = this.gps_cut_off_time.new;
+		editCutOffTime() {
+			const json = {
+				cut_off_time: this.gps_cut_off_time.new
+			}
+			updateCutOffTime(json)
+				.then(res => {
+					this.gps_cut_off_time.old = res.data.cut_off_time
+				})
+				.catch(err => console.log(err))
 			this.resetCutOffTimeModal();
 			this.$bvModal.hide("new-cut-off-time");
 		}
+	},
+	created() {
+		fetchCutOffTime()
+			.then(res => {
+				this.gps_cut_off_time.old = res.data.cut_off_time;
+			})
+			.catch()
 	}
 }
 </script>
