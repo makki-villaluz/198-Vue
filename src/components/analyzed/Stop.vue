@@ -8,7 +8,12 @@
 			</div>
 			<div v-else>
 				<div v-if="violations.length">
-					<h4 style="text-align: center">{{ violations.length }} Stop Violations ({{ min_time }}s - {{ max_time }}s)</h4>
+					<h4 style="text-align: center">
+						{{ violations.length }} Stop Violations 
+						<img src="/static/orangeMarker.png" height="30"> 
+						<!-- <img src="../../../public/orangeMarker.png" height="30">  -->
+						({{ min_time }}s - {{ max_time }}s)
+					</h4>
 					<b-table
 						outlined hover small
 						sticky-header="208px"

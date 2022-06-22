@@ -9,7 +9,12 @@
 				<b-spinner label="spinning"></b-spinner>				
 			</div>
 			<div v-else>
-				<h4 style="text-align: center">{{ violations.length }} Speeding Violations ({{ speed_limit }}km/h, {{ time_limit }}s)</h4>
+				<h4 style="text-align: center">
+					{{ violations.length }} Speeding Violations
+					<img src="/static/redMarker.png" height="30"> 
+					<!-- <img src="../../../public/redMarker.png" height="30">  -->
+					({{ speed_limit }}km/h, {{ time_limit }}s)
+				</h4>
 				<b-table
 					outlined hover small
 					sticky-header="190px"
