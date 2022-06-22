@@ -56,7 +56,31 @@
 						<template #header>
 							<h3>Northbound API Key</h3>
 						</template>
-						<p>{{ northbound_api_key.old }}</p>
+						<b-form>
+							<div style="margin: 14px 0 30px">
+								<b-form-group label="Username" label-cols="4">
+									<b-form-input 
+										id="username" 
+										size="sm" 
+										style="width: 100%"
+										:disabled=true
+										v-model="northbound_api_key.user_old"
+									></b-form-input>						
+								</b-form-group>
+							</div>
+							<div style="margin: 30px 0">
+								<b-form-group label="Password" label-cols="4">
+									<b-form-input 
+										id="password" 
+										size="sm" 
+										style="width: 100%"
+										type="password"
+										:disabled=true
+										v-model="northbound_api_key.pass_old"
+									></b-form-input>
+								</b-form-group>
+							</div>
+						</b-form>
 						<b-button 
 							variant="outline-primary" 
 							size="sm" 
@@ -119,16 +143,38 @@
 			<template #modal-title>
 				<h3>New API Key</h3>
 			</template>
-			<b-form @submit.prevent="updateAPIKey">
+			<b-form>
 				<div class="form-spacer">
-					<b-form-textarea
-						rows="3"
-						max-rows="3"
-						no-resize
-						v-model="northbound_api_key.new"
-					></b-form-textarea>
+					<b-form>
+						<div style="margin: 14px 0 30px">
+							<b-form-group label="Username" label-cols="4">
+								<b-form-input 
+									id="username" 
+									size="sm" 
+									style="width: 100%"
+									v-model="northbound_api_key.user_new"
+								></b-form-input>						
+							</b-form-group>
 				</div>
-				<b-button type="submit" variant="outline-primary" size="sm" style="float: right">Save</b-button>
+						<div style="margin: 30px 0">
+							<b-form-group label="Password" label-cols="4">
+								<b-form-input 
+									id="password" 
+									size="sm" 
+									style="width: 100%"
+									type="password"
+									v-model="northbound_api_key.pass_new"
+								></b-form-input>
+							</b-form-group>
+						</div>
+					</b-form>
+				</div>
+				<b-button 
+					variant="outline-primary" 
+					size="sm" 
+					style="float: right"
+					@click="editAPIKey()"
+				>Save</b-button>
 			</b-form>
 		</b-modal>
 		<b-modal hide-footer id="new-cut-off-time" @hidden="resetCutOffTimeModal">
@@ -138,26 +184,32 @@
 			<b-form>
 				<div class="form-spacer">
 					<b-form-timepicker
-						show-seconds
 						v-model="gps_cut_off_time.new"
 					></b-form-timepicker>
 				</div>
 				<b-button 
+					variant="outline-primary" 
+					size="sm" 
+					style="float: right"
+					@click="editCutOffTime()"
+				>Save</b-button>
 			</b-form>
 		</b-modal>
 	</b-container>
 </template>
 
 <script>
-import { fetchCutOffTime, updateCutOffTime } from "@/api/index.js";
+import { fetchCutOffTime, updateCutOffTime, fetchNorthboundKey, updateNorthboundKey } from "@/api/index.js";
 
 export default {
 	name: "Admin",
 	data() {
 		return {
 			northbound_api_key: {
-				old: "awefawefkawuefhxanwilufhwanlifxwauhfxliwaufhwalmieufwhfliwuehflawieuflufawleiufjaxwlmufxwjamlfauwejfmxalweufjm,laweufjaxwlfeu",
-				new: "",
+				user_old: "",
+				pass_old: "",
+				user_new: "",
+				pass_new: ""
 			},
 			gps_cut_off_time: {
 				old: "",
@@ -182,13 +234,24 @@ export default {
 	},
 	methods: {
 		resetAPIKeyModal() {
-			this.northbound_api_key.new = "";
+			this.northbound_api_key.user_new = "";
+			this.northbound_api_key.pass_new = "";
 		},
 		modalAPIKeyInfo() {
-			this.northbound_api_key.new = this.northbound_api_key.old;
+			this.northbound_api_key.user_new = this.northbound_api_key.user_old;
+			this.northbound_api_key.pass_new = this.northbound_api_key.pass_old;
 		},
-		updateAPIKey() {
-			this.northbound_api_key.old = this.northbound_api_key.new;
+		editAPIKey() {
+			const json = {
+				username: this.northbound_api_key.user_new,
+				password: this.northbound_api_key.pass_new
+			}
+			updateNorthboundKey(json)
+				.then(res => {
+					this.northbound_api_key.user_old = res.data.new_username
+					this.northbound_api_key.pass_old = res.data.new_password
+				})
+				.catch(err => console.log(err))
 			this.resetAPIKeyModal();
 			this.$bvModal.hide("new-api-key");
 		},
@@ -216,7 +279,13 @@ export default {
 			.then(res => {
 				this.gps_cut_off_time.old = res.data.cut_off_time;
 			})
-			.catch()
+			.catch(err => console.log(err))
+		fetchNorthboundKey()
+			.then(res => {
+				this.northbound_api_key.user_old = res.data.northbound_username;
+				this.northbound_api_key.pass_old = res.data.northbound_password;
+			})
+			.catch(err => console.log(err))
 	}
 }
 </script>

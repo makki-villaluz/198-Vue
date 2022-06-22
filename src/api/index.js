@@ -115,6 +115,18 @@ export function updateCutOffTime(json) {
 	});
 }
 
+export function fetchNorthboundKey() {
+	return axios.get(`${API_URL}/admin/northboundkey`);
+}
+
+export function updateNorthboundKey(json) {
+	return axios.put(`${API_URL}/admin/northboundkey`, json, {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+}
+
 export function fetchNorthboundAccessToken() {
 	return axios.get(`${API_URL}/northbound/token`);
 }
