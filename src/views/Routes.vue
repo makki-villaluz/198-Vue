@@ -5,7 +5,12 @@
 				<b-card style="height: 784px">
 					<template #header>
 						<h3>Routes</h3>
-						<b-button variant="outline-info" size="sm" style="float: right">Refresh</b-button>
+						<b-button 
+							variant="outline-info" 
+							size="sm" 
+							style="float: right"
+							@click="refreshRoutes()"
+						>Refresh</b-button>
 					</template>
 					<div style="margin: 12px 0 0">
 						<b-form inline>
@@ -136,7 +141,7 @@
 </template>
 
 <script>
-import { fetchRoute, fetchRoutes, fetchRouteDatalist, fetchRoutesSearch, updateRouteFiles } from "@/api/index.js"
+import { fetchRoute, fetchRoutes, fetchRouteDatalist, fetchRoutesSearch, updateRouteFiles, fetchRefreshRoutes } from "@/api/index.js"
 import Map from "@/components/Map";
 
 export default {
@@ -288,6 +293,9 @@ export default {
 				})
 				.catch(err => console.log(err));
 		},
+		refreshRoutes() {
+			this.$socket.emit("get_routes")
+		},
 		delay(time) {
 			return new Promise(resolve => setTimeout(resolve, time));
 		},
@@ -306,6 +314,22 @@ export default {
 
 			return result;
 		},
+	},
+	sockets: {
+		list_of_routes: function (routes) {
+			const json = {
+				routes: routes
+			}
+			
+			fetchRefreshRoutes(json)
+				.then(res => {
+					this.table.routes = res.data.routes;
+					this.pagination.currentPage = res.data.curr_page;
+					this.pagination.totalRows = res.data.total_rows;
+					this.pagination.perPage = res.data.per_page;
+				})
+				.catch(err => console.log(err))
+		}
 	},
 	created() {
 		fetchRoutes(1)

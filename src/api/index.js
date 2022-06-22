@@ -102,3 +102,23 @@ export function fetchStopViolations(id) {
 export function fetchLiveness(id) {
 	return axios.get(`${API_URL}/vehicle/analyze/liveness/${id.toString()}`);
 }
+
+export function fetchNorthboundAccessToken() {
+	return axios.get(`${API_URL}/northbound/token`);
+}
+
+export function fetchRefreshRoutes(json) {
+	return axios.put(`${API_URL}/route/refresh`, json, {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+}
+
+export function fetchRefreshParameters(json) {
+	return axios.put(`${API_URL}/parameter/refresh`, json, {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+}
