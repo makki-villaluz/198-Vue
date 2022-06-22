@@ -155,7 +155,7 @@
 									v-model="northbound_api_key.user_new"
 								></b-form-input>						
 							</b-form-group>
-				</div>
+						</div>
 						<div style="margin: 30px 0">
 							<b-form-group label="Password" label-cols="4">
 								<b-form-input 
