@@ -58,6 +58,17 @@
 						</template>
 						<b-form>
 							<div style="margin: 14px 0 30px">
+								<b-form-group label="URL" label-cols="4">
+									<b-form-input 
+										id="url" 
+										size="sm" 
+										style="width: 100%"
+										:disabled=true
+										v-model="northbound_api_key.url_old"
+									></b-form-input>						
+								</b-form-group>
+							</div>
+							<div style="margin: 14px 0 30px">
 								<b-form-group label="Username" label-cols="4">
 									<b-form-input 
 										id="username" 
@@ -147,6 +158,16 @@
 				<div class="form-spacer">
 					<b-form>
 						<div style="margin: 14px 0 30px">
+							<b-form-group label="URL" label-cols="4">
+								<b-form-input 
+									id="url" 
+									size="sm" 
+									style="width: 100%"
+									v-model="northbound_api_key.url_new"
+								></b-form-input>						
+							</b-form-group>
+						</div>
+						<div style="margin: 14px 0 30px">
 							<b-form-group label="Username" label-cols="4">
 								<b-form-input 
 									id="username" 
@@ -206,6 +227,8 @@ export default {
 	data() {
 		return {
 			northbound_api_key: {
+				url_old: "",
+				url_new: "",
 				user_old: "",
 				pass_old: "",
 				user_new: "",
@@ -234,22 +257,26 @@ export default {
 	},
 	methods: {
 		resetAPIKeyModal() {
+			this.northbound_api_key.url_new = "";
 			this.northbound_api_key.user_new = "";
 			this.northbound_api_key.pass_new = "";
 		},
 		modalAPIKeyInfo() {
+			this.northbound_api_key.url_new = this.northbound_api_key.url_old;
 			this.northbound_api_key.user_new = this.northbound_api_key.user_old;
 			this.northbound_api_key.pass_new = this.northbound_api_key.pass_old;
 		},
 		editAPIKey() {
 			const json = {
+				url: this.northbound_api_key.url_new,
 				username: this.northbound_api_key.user_new,
 				password: this.northbound_api_key.pass_new
 			}
 			updateNorthboundKey(json)
 				.then(res => {
-					this.northbound_api_key.user_old = res.data.new_username
-					this.northbound_api_key.pass_old = res.data.new_password
+					this.northbound_api_key.url_old = res.data.new_url;
+					this.northbound_api_key.user_old = res.data.new_username;
+					this.northbound_api_key.pass_old = res.data.new_password;
 				})
 				.catch(err => console.log(err))
 			this.resetAPIKeyModal();
@@ -282,6 +309,7 @@ export default {
 			.catch(err => console.log(err))
 		fetchNorthboundKey()
 			.then(res => {
+				this.northbound_api_key.url_old = res.data.northbound_url;
 				this.northbound_api_key.user_old = res.data.northbound_username;
 				this.northbound_api_key.pass_old = res.data.northbound_password;
 			})
