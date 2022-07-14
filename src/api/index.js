@@ -104,7 +104,7 @@ export function fetchLiveness(id) {
 }
 
 export function fetchCutOffTime() {
-	return axios.get(`${API_URL}/admin/cutofftime}`);
+	return axios.get(`${API_URL}/admin/cutofftime`);
 }
 
 export function updateCutOffTime(json) {
