@@ -39,16 +39,16 @@ export function fetchVehiclesSearch(json, page_no) {
 	});
 }
 
-export function fetchIdDatalist(json) {
-	return axios.post(`${API_URL}/auto-complete/id`, json, {
+export function fetchVehicleNameDatalist(json) {
+	return axios.post(`${API_URL}/auto-complete/vehicle`, json, {
 		headers: {
 			'Content-Type': 'application/json'
 		}
 	});
 }
 
-export function fetchRouteDatalist(json) {
-	return axios.post(`${API_URL}/auto-complete/name`, json, {
+export function fetchRouteNameDatalist(json) {
+	return axios.post(`${API_URL}/auto-complete/route`, json, {
 		headers: {
 			'Content-Type': 'application/json'
 		}

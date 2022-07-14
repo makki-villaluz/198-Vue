@@ -8,27 +8,27 @@
 					</template>
 					<div style="margin: 12px 0 0">
 						<b-form inline>
-							<label for="id-form" style="padding-right: 15px">ID</label>
+							<label for="vehicle-name-form" style="padding-right: 15px">ID</label>
 							<vue-bootstrap-typeahead 
-								ref="idSearchInput"
-								v-model="search.id.data"
-								:data="search.id.options"
+								ref="vehicleNameInput"
+								v-model="search.vehicle_name.input"
+								:data="search.vehicle_name.options"
 								size="sm"
 								:minMatchingChars="search.minMatchingChar"
-								@input="idAutoComplete()"
+								@input="vehicleNameAutoComplete()"
 							/>
-							<label for="route-form" style="padding: 0 15px">Route</label>
+							<label for="route-name-form" style="padding: 0 15px">Route</label>
 							<vue-bootstrap-typeahead 
-								ref="routeSearchInput"
-								v-model="search.route.data"
-								:data="search.route.options"
+								ref="routeNameInput"
+								v-model="search.route_name.input"
+								:data="search.route_name.options"
 								size="sm"
 								:minMatchingChars="search.minMatchingChar"
-								@input="routeAutoComplete()"
+								@input="routeNameAutoComplete()"
 							/>
 							<label for="date-form" style="padding: 0 15px">Date</label>
 							<b-form-datepicker 
-								v-model="search.date.data"
+								v-model="search.date.input"
 								id="date-form" 
 								size="sm" 
 								:date-format-options="{month: 'short', day: '2-digit', year: 'numeric'}"
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { fetchVehicle, fetchVehicles, fetchVehiclesSearch, fetchIdDatalist, fetchRouteDatalist } from "@/api/index.js"
+import { fetchVehicle, fetchVehicles, fetchVehiclesSearch, fetchVehicleNameDatalist, fetchRouteNameDatalist } from "@/api/index.js"
 import Map from "@/components/Map";
 
 export default {
@@ -104,7 +104,7 @@ export default {
 		return {
 			table: {
 				fields: [
-					{key: "vehicle_id", sortable: true, label: "ID"}, 
+					{key: "name", sortable: true, label: "Name"}, 
 					{key: "route_name", sortable: true, label: "Route"}, 
 					{key: "date_uploaded", sortable: true, label: "Date"}
 				],
@@ -121,16 +121,16 @@ export default {
 				geojson: null,
 			},
 			search: {
-				id: {
-					data: "",
+				vehicle_name: {
+					input: "",
 					options: []
 				},
-				route: {
-					data: "",
+				route_name: {
+					input: "",
 					options: []
 				},
 				date: {
-					data: ""
+					input: ""
 				},
 				active: false,
 				minMatchingChar: 1
@@ -176,9 +176,9 @@ export default {
 
 			if (this.search.active) {
 				const json = {
-					id: this.search.id.data,
-					route: this.search.route.data,
-					date: this.search.date.data
+					vehicle_name: this.search.vehicle_name.input,
+					route_name: this.search.route_name.input,
+					date: this.search.date.input
 				};
 				fetchVehiclesSearch(json, page)
 					.then(res => {
@@ -203,9 +203,9 @@ export default {
 		},
 		searchVehicle() {
 			const json = {
-				id: this.search.id.data,
-				route: this.search.route.data,
-				date: this.search.date.data
+				vehicle_name: this.search.vehicle_name.input,
+				route_name: this.search.route_name.input,
+				date: this.search.date.input
 			};
 			fetchVehiclesSearch(json, 1)
 				.then(res => {
@@ -218,13 +218,13 @@ export default {
 				.catch(err => console.log(err))
 		},
 		clearSearch() {
-			this.search.id.data = "";
-			this.$refs.idSearchInput.inputValue = "";
+			this.search.vehicle_name.input = "";
+			this.$refs.vehicleNameInput.inputValue = "";
 
-			this.search.route.data = "";
-			this.$refs.routeSearchInput.inputValue = "";
+			this.search.route_name.input = "";
+			this.$refs.routeNameInput.inputValue = "";
 
-			this.search.date.data = "";
+			this.search.date.input = "";
 			this.search.active = false;
 			
 			fetchVehicles(1)
@@ -236,23 +236,23 @@ export default {
 				})
 				.catch(err => console.log(err));
 		},
-		idAutoComplete() {
+		vehicleNameAutoComplete() {
 			const json = {
-				id: this.search.id.data
+				vehicle_name: this.search.vehicle_name.input
 			}
-			fetchIdDatalist(json)
+			fetchVehicleNameDatalist(json)
 				.then(res => {
-					this.search.id.options = res.data.vehicles.map(String);
+					this.search.vehicle_name.options = res.data.vehicles.map(String);
 				})
 				.catch(err => console.log(err));
 		},
-		async routeAutoComplete() {
+		routeNameAutoComplete() {
 			const json = {
-				route: this.search.route.data
+				route_name: this.search.route_name.input
 			}
-			fetchRouteDatalist(json)
+			fetchRouteNameDatalist(json)
 				.then(res => {
-					this.search.route.options = res.data.routes;
+					this.search.route_name.options = res.data.routes;
 				})
 				.catch(err => console.log(err));
 		},

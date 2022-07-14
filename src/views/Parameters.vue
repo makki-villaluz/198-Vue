@@ -14,14 +14,14 @@
 					</template>
 					<div style="margin: 12px 0 0">
 						<b-form inline>
-							<label for="name-form" style="padding-right: 15px">Name</label>
+							<label for="route-name-form" style="padding-right: 15px">Name</label>
 							<vue-bootstrap-typeahead
-								ref="routeSearchInput"
-								v-model="search.route.data"
-								:data="search.route.options"
+								ref="routeNameInput"
+								v-model="search.route_name.input"
+								:data="search.route_name.options"
 								size="sm"
 								:minMatchingChars="search.minMatchingChar"
-								@input="routeAutoComplete()"
+								@input="routeNameAutoComplete()"
 							/>
 						</b-form>
 						<div style="margin: 15px 0 0">
@@ -194,7 +194,7 @@
 </template>
 
 <script>
-import { fetchParameter, fetchParameters, fetchParametersSearch, updateParameter, fetchRouteDatalist, fetchRefreshParameters } from "@/api/index.js"
+import { fetchParameter, fetchParameters, fetchParametersSearch, updateParameter, fetchRouteNameDatalist, fetchRefreshParameters } from "@/api/index.js"
 import Map from "@/components/Map";
 
 export default {
@@ -206,7 +206,7 @@ export default {
 		return {
 			table: {
 				fields: [
-					{key: "route_name", sortable: true, label: "Route"}, 
+					{key: "name", sortable: true, label: "Route"}, 
 					{key: "cell_size", sortable: true, label: "Cell Size"},
 					{key: "stop_min_max_time", label: "Stop Min - Max Time"},
 					{key: "speeding_time_speed_limit", label: "Speeding Time, Speed Limit"},
@@ -227,8 +227,8 @@ export default {
 				polygon: null
 			},
 			search: {
-				route: {
-					data: "",
+				route_name: {
+					input: "",
 					options: []
 				},
 				minMatchingChar: 1
@@ -337,7 +337,7 @@ export default {
 		},
 		searchParameter() {
 			const json = {
-				route: this.search.route.data
+				parameter_name: this.search.route_name.input
 			};
 			fetchParametersSearch(json, 1)
 				.then(res => {
@@ -349,8 +349,8 @@ export default {
 				.catch(err => console.log(err))
 		},
 		clearParameter() {
-			this.search.route.data = "";
-			this.$refs.routeSearchInput.inputValue = "";
+			this.search.route_name.input = "";
+			this.$refs.routeNameInput.inputValue = "";
 
 			fetchParameters(1)
 				.then(res => {
@@ -361,13 +361,13 @@ export default {
 				})
 				.catch(err => console.log(err));
 		},
-		routeAutoComplete() {
+		routeNameAutoComplete() {
 			const json = {
-				route: this.search.route.data
+				route_name: this.search.route_name.input
 			}
-			fetchRouteDatalist(json)
+			fetchRouteNameDatalist(json)
 				.then(res => {
-					this.search.route.options = res.data.routes;
+					this.search.route_name.options = res.data.routes;
 				})
 				.catch(err => console.log(err));
 		},

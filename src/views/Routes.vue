@@ -14,14 +14,14 @@
 					</template>
 					<div style="margin: 12px 0 0">
 						<b-form inline>
-							<label for="name-form" style="padding-right: 15px">Name</label>
+							<label for="route-name-form" style="padding-right: 15px">Name</label>
 							<vue-bootstrap-typeahead 
-								ref="routeSearchInput"
-								v-model="search.route.data"
-								:data="search.route.options"
+								ref="routeNameInput"
+								v-model="search.route_name.input"
+								:data="search.route_name.options"
 								size="sm"
 								:minMatchingChars="search.minMatchingChar"
-								@input="routeAutoComplete()"
+								@input="routeNameAutoComplete()"
 							/>
 						</b-form>
 						<div style="margin: 15px 0 0">
@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import { fetchRoute, fetchRoutes, fetchRouteDatalist, fetchRoutesSearch, updateRouteFiles, fetchRefreshRoutes } from "@/api/index.js"
+import { fetchRoute, fetchRoutes, fetchRouteNameDatalist, fetchRoutesSearch, updateRouteFiles, fetchRefreshRoutes } from "@/api/index.js"
 import Map from "@/components/Map";
 
 export default {
@@ -153,7 +153,7 @@ export default {
 		return {
 			table: {
 				fields: [
-					{key: "route_name", sortable: true, label: "Name"}, 
+					{key: "name", sortable: true, label: "Name"}, 
 					{key: "complete_files", sortable: true}, 
 					{key: "date_uploaded", sortable: true, label: "Date"}, 
 					{key: "actions", label: ""}
@@ -178,8 +178,8 @@ export default {
 				polygon: null,
 			},
 			search: {
-				route: {
-					data: "",
+				route_name: {
+					input: "",
 					options: []
 				},
 				minMatchingChar: 1
@@ -258,7 +258,7 @@ export default {
 		},
 		searchRoute() {
 			const json = {
-				route: this.search.route.data
+				route_name: this.search.route_name.input
 			}
 			fetchRoutesSearch(json, 1)
 				.then(res => {
@@ -271,8 +271,8 @@ export default {
 
 		},
 		clearSearch() {
-			this.search.route.data = "";
-			this.$refs.routeSearchInput.inputValue = "";
+			this.search.route_name.input = "";
+			this.$refs.routeNameInput.inputValue = "";
 
 			fetchRoutes(1)
 				.then(res => {
@@ -282,14 +282,13 @@ export default {
 				})
 				.catch(err => console.log(err));
 		},
-		routeAutoComplete() {
+		routeNameAutoComplete() {
 			const json = {
-				route: this.search.route.data
+				route_name: this.search.route_name.input
 			}
-			console.log(this.search.route.data)
-			fetchRouteDatalist(json)
+			fetchRouteNameDatalist(json)
 				.then(res => {
-					this.search.route.options = res.data.routes;
+					this.search.route_name.options = res.data.routes;
 				})
 				.catch(err => console.log(err));
 		},
