@@ -194,6 +194,8 @@ export default {
 		resetModal() {
 			this.modal.id = null;
 			this.modal.route_name = "";
+			this.modal.ref_file = null;
+			this.modal.stop_file = null;
 		},
 		rowHovered(row) {
 			if (row.ref_filename !== 'null' && row.stop_filename !== 'null') {
@@ -241,7 +243,7 @@ export default {
 				})
 				.catch(err => console.log(err))
 		},
-		editRouteFiles() {
+		uploadRouteFiles() {
 			const formData = new FormData();
 
 			formData.append("ref_file", this.modal.ref_file);
@@ -253,6 +255,9 @@ export default {
 					this.table.routes[index].ref_filename = res.data.ref_filename;
 					this.table.routes[index].stop_filename = res.data.stop_filename;
 					this.table.routes[index].date_uploaded = res.data.date_uploaded;
+
+					this.resetModal();
+					this.$bvModal.hide("upload-modal")
 				})
 				.catch(err => console.log(err))
 		},
