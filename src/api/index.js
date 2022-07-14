@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const API_URL = "/api";
-const API_URL = "http://127.0.0.1:5000/api"
+const API_URL = process.env.VUE_APP_URL
 
 export function login(userData) {
 	return axios.post(`${API_URL}/login`, userData)
