@@ -2,8 +2,8 @@
 	<div class="center">
 		<b-row>
 			<b-col>
-				<!-- <img src="../../public/favicon.png" height="140"> -->
 				<img src="/static/favicon.png" height="140">
+				<!-- <img src="../../public/favicon.png" height="140"> -->
 			</b-col>
 			<b-col>
 				<div style="font-size: 72px; padding: 16px 0;">

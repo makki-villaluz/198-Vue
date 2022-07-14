@@ -11,6 +11,11 @@
 					:icon-size="[25, 41]"
 					:icon-anchor="[12, 41]"
 				></LIcon>
+				<!-- <LIcon
+					icon-url="../../public/redMarker.png"
+					:icon-size="[25, 41]"
+					:icon-anchor="[12, 41]"
+				></LIcon> -->
 			</LMarker>
 		</div>
 		<div v-if="stop !== null">
@@ -21,6 +26,11 @@
 					:icon-size="[25, 41]"
 					:icon-anchor="[12, 41]"
 				></LIcon>
+				<!-- <LIcon
+					icon-url="../../public/orangeMarker.png"
+					:icon-size="[25, 41]"
+					:icon-anchor="[12, 41]"
+				></LIcon> -->
 			</LMarker>
 		</div>
 	</LMap>
